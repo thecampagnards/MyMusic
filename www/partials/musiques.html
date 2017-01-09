@@ -1,0 +1,97 @@
+<h1>Les musiques <small>/ Liste <span ng-show="musiques">({{ (musiques | filter:search).length }})</span></small></h1>
+<hr />
+
+<div class="alert alert-warning alert-dismissible" role="alert" ng-show="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong>{{ alert }}
+</div>
+
+<p>
+  <a href="musiques/ajouter" class="btn btn-default">Ajouter une musique</a>
+  <button play-all="musiques" class="btn btn-default">Jouer toutes les musiques</button>
+  <button play-all="musiques" data-play="false" class="btn btn-default">Ajouter toutes les musiques</button>
+</p>
+
+<div class="alert alert-info" role="alert" ng-hide="loaded">
+  <p class="loading">Chargement en cours, merci de patienter...</p>
+</div>
+<div class="alert alert-info" role="alert" ng-show="(musiques | filter:search).length == 0">
+  <p>Aucun résultat<span ng-show="search">, veuillez élargir la recherche</span>.</p>
+</div>
+
+<div>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr ng-hide="(musiques | filter:search).length == 0">
+        <th>
+          <a ng-click="orderByField = '-id'; sortReverse=!sortReverse">Id</a>
+          <span ng-show="orderByField == '-id'">
+            <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+            <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+          </span>
+        </th>
+        <th>
+          <a ng-click="orderByField = '-title'; sortReverse=!sortReverse">Titre</a>
+          <span ng-show="orderByField == '-title'">
+            <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+            <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+          </span>
+        </th>
+        <th>
+          <a ng-click="orderByField = '-artist'; sortReverse=!sortReverse">Artiste</a>
+          <span ng-show="orderByField == '-artist'">
+            <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+            <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+          </span>
+        </th>
+        <th>
+          <a ng-click="orderByField = '-length'; sortReverse=!sortReverse">Temps</a>
+          <span ng-show="orderByField == '-length'">
+            <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+            <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+          </span>
+        </th>
+        <th class="table-actions">
+          Actions
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+      ng-class="{'primary': musique.id == 1 }"
+      ng-repeat="musique in musiques | filter:search | orderBy:'-id':reverse">
+        <td>{{ musique.id }}</td>
+        <td music-player="play" add-song="musique">{{ musique.title }}</td>
+        <td>{{ musique.artist }}</td>
+        <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
+        <td class="table-actions">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default btn-sm" music-player add-song="musique">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <span class="glyphicon glyphicon-cog"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+              <li>
+                <a ng-href="{{ musique.url }}" class="btn" download>
+                  Télécharger
+                </a>
+              </li>
+              <li>
+                <a href="musiques/editer/{{ musique.id }}" class="btn" ng-disabled="musique.id !== 1">
+                  Editer
+                </a>
+              </li>
+              <li>
+                <a ng-click="delete(musique)" class="btn" ng-confirm-click="Êtes-vous sûr de vouloir supprimer \"{{musique.title}}\" ?" ng-disabled="musique.id !== 1">
+                  Supprimer
+                </a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

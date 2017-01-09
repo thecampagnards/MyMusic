@@ -1,0 +1,18 @@
+<h1>Hello! <small>What's going on today?</small></h1>
+<hr />
+
+<div class="col-sm-8">
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h3 class="panel-title clearfix"><span class="pull-left">Dernières musiques</span> <a href="musiques" class="btn btn-xs btn-default pull-right">Consulter la liste complète</a></h3>
+    </div>
+    <table class="table table-condensed table-striped">
+      <tbody>
+        <tr ng-repeat="musique in musiques | orderBy:'-id' | limitTo:10 ">
+          <td music-player="play" add-song="musique">{{ musique.title }}</td>
+          <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

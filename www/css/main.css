@@ -1,0 +1,32 @@
+#main{
+  margin-left: 50px;
+  margin-right: 50px;
+}
+.navbar-form .glyphicon-remove {
+  float: right;
+  top: -25px;
+  right: 7px;
+  cursor: pointer;
+}
+
+.dropdown-menu .btn {
+    text-align: left;
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.seekBase {
+  height: 30px;
+  width: 90%;
+  border: 1px solid #cccccc;
+}
+
+.seekLoad {
+	height: 30px;
+  width: 0;
+  background-color: #E0EAF1;
+}
+
+li {
+	cursor: pointer;
+}
