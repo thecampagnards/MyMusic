@@ -1,0 +1,110 @@
+
+<h1>Playlist <small>/ <span ng-if="action == 'add'">Ajouter</span><span ng-if="action == 'edit'">Édition de la playlist &laquo; {{ playlist.title }} &raquo;</span></small></h1>
+<hr />
+
+<div class="alert alert-warning alert-dismissible" role="alert" ng-show="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong>{{ alert }}
+</div>
+
+<form role="form" class="form-horizontal" ng-submit="submitForm()">
+  <span ng-if="action == 'edit'">
+    <div class="form-group">
+      <label>ID</label>
+      <input type="text" class="form-control" placeholder="ID" ng-model="playlist.id" ng-disabled="action == 'edit'">
+    </div>
+  </span>
+  <div class="form-group">
+    <label>Titre</label>
+    <input type="text" class="form-control" placeholder="Titre" ng-model="playlist.title">
+  </div>
+  <div class="form-group">
+    <label>Status</label>
+    <input type="number" class="form-control" placeholder="Status" ng-model="playlist.status">
+  </div>
+
+  <div class="form-group">
+    <label>Liste des musiques</label>
+    <div class="row">
+      <div class="col-md-10">
+        <select size="10" class="form-control ng-pristine ng-valid" ng-model="musiqueItems" ng-multiple="true" multiple="true" ng-options="(musique.title+' - '+musique.artist) group by musique.title[0] for musique in musiques track by musique.id | filter:search"></select>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-default" aria-label="Ajouter une musique" ng-click="addMusiqueList(musiqueItems)">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        <br/><br/>
+        <button type="button" class="btn btn-default" aria-label="Supprimer une musique" ng-click="deleteMusiqueList(musiqueItems)">
+          <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>La playlist</label>
+    <table class="table table-bordered table-condensed">
+      <thead>
+        <tr>
+          <th>
+            Vignette
+          </th>
+          <th>
+            Titre
+          </th>
+          <th>
+            Artiste
+          </th>
+          <th>
+            Durée
+          </th>
+          <th class="table-actions">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="musique in playlist.musiques | orderBy:orderByField:sortReverse">
+        <td>
+          <div class="col-xs-6 col-md-3">
+            <a class="thumbnail">
+              <img height="20px" check-image ng-src="{{ musique.image }}">
+            </a>
+          </div>
+        </td>
+        <td>{{ musique.title }}</td>
+        <td>{{ musique.artist }}</td>
+        <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
+        <td class="table-actions">
+          <button type="button" class="btn btn-default btn-sm" music-player="play" add-song="musique">
+            <span class="glyphicon glyphicon glyphicon-play"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-sm" ng-click="deleteMusiqueList(musique)">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pull-right">
+    <a href="musique" class="btn btn-default" ng-confirm-click="Êtes-vous sûr de vouloir annuler ?">Annuler</a>
+    <a ng-if="action == 'edit'" class="btn btn-danger" ng-click="delete()" ng-confirm-click="Êtes-vous sûr de vouloir supprimer ?">Supprimer</a>
+    <a class="btn btn-danger" ng-if="action == 'add'" ng-click="reinitialiser()" ng-confirm-click="Êtes-vous sûr de vouloir tout effacer ?">Ré-initialiser</a>
+    <input type="submit" value="Valider" class="btn btn-primary"/>
+  </div>
+</form>
+
+<script>
+  $("#musiqueImage").fileinput({
+    initialPreview: [
+    '<img src="{{musique.image}}" height="200" width="400">'
+    ],
+    language: "fr",
+    allowedFileTypes: ["image"],
+    showRemove: false,
+    showUpload: false,
+    overwriteInitial: true
+  });
+</script>

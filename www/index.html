@@ -26,7 +26,7 @@
         <li><a href="playlists"><i class="fa fa-list"></i> Playlists</a></li>
         <li><a href="parametre"><i class="fa fa-gears"></i> Paramètres</a></li>
         <li class="dropdown">
-          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-power-off"></i> {{ login }}</a>
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-power-off"></i> {{ user.pseudo }}</a>
           <ul class="dropdown-menu">
             <li><a href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a></li>
           </ul>
@@ -49,6 +49,13 @@
 
         <div class="page-header">
           <h2>À l'écoute: {{ currentPlaying.title }} <span ng-if="currentPlaying.artist">de {{ currentPlaying.artist }}</span> <small>{{ currentPostion }} / {{ currentDuration }}</small></h1>
+        </div>
+
+        <div class="col-xs-6 col-md-3">
+          <a class="thumbnail">
+            <img ng-if="currentPlaying.image" ng-src="{{ currentPlaying.image }}">
+            <img ng-if="!currentPlaying.image" src="img/no-media.gif">
+          </a>
         </div>
 
         <div class="progress" seek-track>
@@ -81,20 +88,24 @@
       <div class="col-sm-6">
         <div class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title clearfix"><span class="pull-left">Playlist</span></h3>
+            <h3 class="panel-title clearfix"><span class="pull-left">En direct</span></h3>
           </div>
-          <table class="table table-condensed table-striped">
+          <div style="overflow-y:auto;height:200px">
+
+          <table class="table table-condensed table-striped header-fixed" style="table-layout:fixed">
             <tbody>
               <tr class="clickable-row" ng-repeat="musique in playlist">
                 <td play-from-playlist="musique"><a href="#">{{ musique.title }}</a><span ng-if="currentPlaying.id == musique.id"> <small>(actuelle)</small></span></td>
 
-                <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
-                <td remove-from-playlist="musique" data-index="{{$index}}">
+                <td style="width:60px">{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
+                <td remove-from-playlist="musique" data-index="{{$index}}" style="width:40px">
                   <small><span class="glyphicon glyphicon-remove" aria-hidden="true"></small>
                 </td>
               </tr>
             </tbody>
           </table>
+        </div>
+
         </div>
       </div>
     </div>

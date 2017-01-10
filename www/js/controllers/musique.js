@@ -2,7 +2,7 @@
 
 angular.module('mymusicApp.controllers')
 // controlleur de la page musiques
-.controller('musiquesController', ['$scope', '$http', 'CONFIG', 'loginService', function ($scope, $http, CONFIG, loginService) {
+.controller('musiquesController', ['$rootScope', '$scope', '$http', 'CONFIG', 'loginService', '$document', function ($rootScope, $scope, $http, CONFIG, loginService, $document) {
   $scope.orderByField = '-id'
   $scope.sortReverse = false
   loginService.isLogged().then(function () {
@@ -15,6 +15,19 @@ angular.module('mymusicApp.controllers')
       $scope.loaded = true
     })
   })
+
+  // suppression d'une musique
+  $scope.delete = function (item) {
+    // check avant si l'utilisateur a le bon id
+    if (item.utilisateur.id === $rootScope.user.id) {
+      $http.delete(CONFIG.API_URL + 'product/' + item.id).then(function successCallback (response) {
+        item.available = 0
+      }, function errorCallback (response) {
+        $scope.alert = response.data
+        $document.scrollTop(0, 250)
+      })
+    }
+  }
 }])
 
 // controlleur du form de la musique
@@ -40,9 +53,11 @@ angular.module('mymusicApp.controllers')
       $http.put(CONFIG.API_URL + 'musique/' + $scope.musique.id, $scope.musique).then(function successCallback (response) {
         $scope.musique = response.data
         if ($scope.musiqueImage) {
-          fileUpload.uploadFileToUrl($scope.musiqueImage, CONFIG.API_URL + 'musique/img/' + $scope.musique.id).then(function successCallback () {
+          fileUpload.uploadFileToUrl($scope.musiqueImage, CONFIG.API_URL + 'musique/image/' + $scope.musique.id).then(function successCallback () {
             $location.path('musiques')
           })
+        } else {
+          $location.path('musiques')
         }
       }, function errorCallback (response) {
         $scope.alert = response.data
@@ -53,9 +68,11 @@ angular.module('mymusicApp.controllers')
       $http.post(CONFIG.API_URL + 'musique/', $scope.musique).then(function successCallback (response) {
         $scope.musique = response.data
         if ($scope.musiqueImage) {
-          fileUpload.uploadFileToUrl($scope.musiqueImage, CONFIG.API_URL + 'musique/img/' + $scope.musique.id).then(function successCallback () {
+          fileUpload.uploadFileToUrl($scope.musiqueImage, CONFIG.API_URL + 'musique/image/' + $scope.musique.id).then(function successCallback () {
             $location.path('musiques')
           })
+        } else {
+          $location.path('musiques')
         }
       }, function errorCallback (response) {
         $scope.alert = response.data

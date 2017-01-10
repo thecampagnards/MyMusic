@@ -44,6 +44,14 @@ angular.module('mymusicApp', [
     templateUrl: 'partials/playlists.html',
     controller: 'playlistsController'
   })
+  .when('/playlists/ajouter', {
+    templateUrl: 'partials/playlist-form.html',
+    controller: 'playlistFormController'
+  })
+  .when('/playlists/editer/:id', {
+    templateUrl: 'partials/playlist-form.html',
+    controller: 'playlistFormController'
+  })
   .otherwise({
     redirectTo: '/'
   })

@@ -15,18 +15,11 @@
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-.seekBase {
-  height: 30px;
-  width: 90%;
-  border: 1px solid #cccccc;
-}
-
-.seekLoad {
-	height: 30px;
-  width: 0;
-  background-color: #E0EAF1;
-}
 
 li {
 	cursor: pointer;
+}
+
+.thumbnail{
+  width: 90px;
 }

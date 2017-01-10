@@ -34,8 +34,10 @@ angular.module('mymusicApp.services', [])
         defer.reject();
       });*/
       defer.resolve('done')
-      $rootScope.login = 'admin'
       $rootScope.isLogged = true
+      $rootScope.user = {}
+      $rootScope.user.id = 1
+      $rootScope.user.pseudo = 'admin'
       return defer.promise
     }
   }
@@ -54,3 +56,14 @@ angular.module('mymusicApp.services', [])
     }
   }
 })
+
+.service('fileUpload', ['$http', function ($http) {
+  this.uploadFileToUrl = function (file, uploadUrl) {
+    var fd = new FormData()
+    fd.append('file', file)
+    return $http.post(uploadUrl, fd, {
+      transformRequest: angular.identity,
+      headers: {'Content-Type': undefined}
+    })
+  }
+}])

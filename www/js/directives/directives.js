@@ -8,6 +8,22 @@ angular.module('mymusicApp.directives', [])
   }
 }])
 
+.directive('ngConfirmClick', [ function () {
+  return {
+    priority: -1,
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      element.bind('click', function (e) {
+        var message = attrs.ngConfirmClick
+        if (message && !window.confirm(message)) {
+          e.stopImmediatePropagation()
+          e.preventDefault()
+        }
+      })
+    }
+  }
+}])
+
 .directive('mixPlaylist', ['angularPlayer', function (angularPlayer) {
   return {
     restrict: 'EA',
@@ -55,3 +71,18 @@ angular.module('mymusicApp.directives', [])
     }
   }
 }])
+
+.directive('checkImage', function ($http) {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attrs) {
+      attrs.$observe('ngSrc', function (ngSrc) {
+        var img = new Image()
+        img.onerror = function () {
+          element.attr('src', 'img/no-media.gif')
+        }
+        img.src = ngSrc
+      })
+    }
+  }
+})

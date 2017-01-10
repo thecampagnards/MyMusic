@@ -31,6 +31,9 @@
           </span>
         </th>
         <th>
+          Vignette
+        </th>
+        <th>
           <a ng-click="orderByField = '-title'; sortReverse=!sortReverse">Titre</a>
           <span ng-show="orderByField == '-title'">
             <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
@@ -58,9 +61,16 @@
     </thead>
     <tbody>
       <tr
-      ng-class="{'primary': musique.id == 1 }"
+      ng-class="{'info': musique.utilisateur.id === user.id }"
       ng-repeat="musique in musiques | filter:search | orderBy:'-id':reverse">
         <td>{{ musique.id }}</td>
+        <td>
+          <div class="col-xs-6 col-md-3">
+            <a class="thumbnail">
+              <img height="20px" check-image ng-src="{{ musique.image }}">
+            </a>
+          </div>
+        </td>
         <td music-player="play" add-song="musique">{{ musique.title }}</td>
         <td>{{ musique.artist }}</td>
         <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
@@ -79,12 +89,12 @@
                 </a>
               </li>
               <li>
-                <a href="musiques/editer/{{ musique.id }}" class="btn" ng-disabled="musique.id !== 1">
+                <a href="musiques/editer/{{ musique.id }}" class="btn" ng-disabled="musique.utilisateur.id !== user.id">
                   Editer
                 </a>
               </li>
               <li>
-                <a ng-click="delete(musique)" class="btn" ng-confirm-click="Êtes-vous sûr de vouloir supprimer \"{{musique.title}}\" ?" ng-disabled="musique.id !== 1">
+                <a ng-click="delete(musique)" class="btn" ng-confirm-click="Êtes-vous sûr de vouloir supprimer « {{ musique.title }} » ?" ng-disabled="musique.utilisateur.id !== user.id">
                   Supprimer
                 </a>
               </li>
