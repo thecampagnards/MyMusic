@@ -7,10 +7,7 @@ angular.module('mymusicApp.controllers')
   $scope.sortReverse = false
   loginService.isLogged().then(function () {
     // recuperation des musiques
-    $http.get(CONFIG.API_URL + 'musique/').then(function successCallback (response) {
-      for (var i = 0; i < response.data.length; i++) {
-        response.data[i].url = response.data[i].link
-      }
+    $http.get(CONFIG.API_URL + 'musiques').then(function successCallback (response) {
       $scope.musiques = response.data
       $scope.loaded = true
     })
@@ -20,8 +17,8 @@ angular.module('mymusicApp.controllers')
   $scope.delete = function (item) {
     // check avant si l'utilisateur a le bon id
     if (item.utilisateur.id === $rootScope.user.id) {
-      $http.delete(CONFIG.API_URL + 'product/' + item.id).then(function successCallback (response) {
-        item.available = 0
+      $http.delete(CONFIG.API_URL + 'musiques/' + item.id).then(function successCallback (response) {
+
       }, function errorCallback (response) {
         $scope.alert = response.data
         $document.scrollTop(0, 250)
@@ -38,8 +35,9 @@ angular.module('mymusicApp.controllers')
   loginService.isLogged().then(function () {
     // recuperation de la musique
     if ($routeParams.id) {
-      $http.get(CONFIG.API_URL + 'musique/' + $routeParams.id).then(function successCallback (response) {
-        $scope.musique = response.data
+      $http.get(CONFIG.API_URL + 'musiques/' + encodeURIComponent(JSON.stringify({id: $routeParams.id})))
+      .then(function successCallback (response) {
+        $scope.musique = response.data[0]
         $scope.action = 'edit'
       })
     }
@@ -50,10 +48,10 @@ angular.module('mymusicApp.controllers')
     $scope.submitted = true
     // edit
     if ($scope.action === 'edit') {
-      $http.put(CONFIG.API_URL + 'musique/' + $scope.musique.id, $scope.musique).then(function successCallback (response) {
+      $http.put(CONFIG.API_URL + 'musiques/' + $scope.musique.id, $scope.musique).then(function successCallback (response) {
         $scope.musique = response.data
         if ($scope.musiqueImage) {
-          fileUpload.uploadFileToUrl($scope.musiqueImage, CONFIG.API_URL + 'musique/image/' + $scope.musique.id).then(function successCallback () {
+          fileUpload.uploadFileToUrl($scope.musiqueImage, CONFIG.API_URL + 'musiques/image/' + $scope.musique.id).then(function successCallback () {
             $location.path('musiques')
           })
         } else {
@@ -65,14 +63,15 @@ angular.module('mymusicApp.controllers')
       })
     } else {
       // Ajout
-      $http.post(CONFIG.API_URL + 'musique/', $scope.musique).then(function successCallback (response) {
+      $http.post(CONFIG.API_URL + 'musiques', $scope.musique).then(function successCallback (response) {
         $scope.musique = response.data
         if ($scope.musiqueImage) {
-          fileUpload.uploadFileToUrl($scope.musiqueImage, CONFIG.API_URL + 'musique/image/' + $scope.musique.id).then(function successCallback () {
+          fileUpload.uploadFileToUrl($scope.musiqueImage, CONFIG.API_URL + 'musiques/image/' + $scope.musique.id).then(function successCallback () {
             $location.path('musiques')
           })
         } else {
-          $location.path('musiques')
+
+          //$location.path('musiques')
         }
       }, function errorCallback (response) {
         $scope.alert = response.data

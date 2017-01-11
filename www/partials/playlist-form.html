@@ -27,7 +27,7 @@
     <label>Liste des musiques</label>
     <div class="row">
       <div class="col-md-10">
-        <select size="10" class="form-control ng-pristine ng-valid" ng-model="musiqueItems" ng-multiple="true" multiple="true" ng-options="(musique.title+' - '+musique.artist) group by musique.title[0] for musique in musiques track by musique.id | filter:search"></select>
+        <select size="10" class="form-control ng-pristine ng-valid" ng-model="musiqueItems" ng-multiple="true" multiple="true" ng-options="(musique.title+' - '+musique.artist) group by musique.title[0] for musique in musiques track by musique.id"></select>
       </div>
       <div class="col-md-2">
         <button type="button" class="btn btn-default" aria-label="Ajouter une musique" ng-click="addMusiqueList(musiqueItems)">

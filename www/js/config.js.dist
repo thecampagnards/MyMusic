@@ -1,0 +1,6 @@
+
+angular.module('mymusicApp.config', [])
+
+.constant('CONFIG', {
+  'API_URL': 'http://api.mymusic/'
+})

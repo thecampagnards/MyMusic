@@ -5,7 +5,7 @@ angular.module('mymusicApp.controllers')
 .controller('playlistsController', ['$scope', '$http', 'CONFIG', 'loginService', 'angularPlayer', function ($scope, $http, CONFIG, loginService, angularPlayer) {
   loginService.isLogged().then(function () {
     // recuperation des playlists
-    $http.get(CONFIG.API_URL + 'playlist/').then(function successCallback (response) {
+    $http.get(CONFIG.API_URL + 'playlists').then(function successCallback (response) {
       $scope.playlists = response.data
       $scope.loaded = true
     })
@@ -13,7 +13,6 @@ angular.module('mymusicApp.controllers')
 
   $scope.addtoPlaylist = function (playlist) {
     for (var i = 0; i < playlist.musiques.length; i++) {
-      playlist.musiques[i].url = playlist.musiques[i].link
       angularPlayer.addTrack(playlist.musiques[i])
     }
   }
@@ -27,23 +26,14 @@ angular.module('mymusicApp.controllers')
 
   loginService.isLogged().then(function () {
     // recuperation des musiques
-    $http.get(CONFIG.API_URL + 'musique/').then(function successCallback (response) {
-      for (var i = 0; i < response.data.length; i++) {
-        response.data[i].url = response.data[i].link
-        if (response.data[i].artist === null) {
-          response.data[i].artist = undefined
-        }
-      }
+    $http.get(CONFIG.API_URL + 'musiques').then(function successCallback (response) {
       $scope.musiques = response.data
     })
 
     // recuperation de la playlist
     if ($routeParams.id) {
-      $http.get(CONFIG.API_URL + 'playlist/' + $routeParams.id).then(function successCallback (response) {
-        for (var i = 0; i < response.data.musiques.length; i++) {
-          response.data.musiques[i].url = response.data.musiques[i].link
-        }
-        $scope.playlist = response.data
+      $http.get(CONFIG.API_URL + 'playlists/' + encodeURIComponent(JSON.stringify({id: $routeParams.id}))).then(function successCallback (response) {
+        $scope.playlist = response.data[0]
         $scope.action = 'edit'
       })
     }
@@ -53,14 +43,10 @@ angular.module('mymusicApp.controllers')
   $scope.submitForm = function () {
     if ($scope.playlist.musiques !== undefined && $scope.playlist.musiques.length !== 0) {
       $scope.submitted = true
-      for (var i = 0; i < $scope.playlist.musiques.length; i++) {
-        delete $scope.playlist.musiques[i].$$hashKey
-        delete $scope.playlist.musiques[i].url
-      }
       $scope.playlist.utilisateur = $rootScope.user
       // edit
       if ($scope.action === 'edit') {
-        $http.put(CONFIG.API_URL + 'playlist/' + $scope.playlist.id, $scope.playlist).then(function successCallback (response) {
+        $http.put(CONFIG.API_URL + 'playlists/' + $scope.playlist.id, $scope.playlist).then(function successCallback (response) {
           $location.path('playlists')
         }, function errorCallback (response) {
           $scope.alert = response.data
@@ -68,7 +54,7 @@ angular.module('mymusicApp.controllers')
         })
       // Ajout
       } else {
-        $http.post(CONFIG.API_URL + 'playlist/', $scope.playlist).then(function successCallback (response) {
+        $http.post(CONFIG.API_URL + 'playlists/', $scope.playlist).then(function successCallback (response) {
           $location.path('playlists')
         }, function errorCallback (response) {
           $scope.alert = response.data

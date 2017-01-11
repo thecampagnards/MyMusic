@@ -4,15 +4,12 @@ angular.module('mymusicApp', [
   'ngRoute',
   'angularSoundManager',
   'ui.bootstrap',
+  'mymusicApp.config',
   'mymusicApp.directives',
   'mymusicApp.filters',
   'mymusicApp.services',
   'mymusicApp.controllers'
 ])
-
-.constant('CONFIG', {
-  'API_URL': 'http://localhost:8081/api/'
-})
 
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode({
