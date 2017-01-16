@@ -80,4 +80,5 @@ config.js
 
 dist/app.js
 dist/index.html
-dist/main.css
+dist/css/
+dist/templates.js

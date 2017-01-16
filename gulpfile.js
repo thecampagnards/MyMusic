@@ -48,9 +48,9 @@ gulp.task('css', ['sass'], function () {
       './bower_components/bootstrap/dist/css/bootstrap.min.css',
       './bower_components/bootstrap-fileinput/css/fileinput.min.css'
     ])
-    .pipe(concatCss('main.css'))
+    .pipe(concatCss('main.css', {rebaseUrls: false}))
     .pipe(cleanCSS({compatibility: 'ie8'}))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest('./dist/css/'))
 })
 
 gulp.task('build', ['js', 'css'], function () {
