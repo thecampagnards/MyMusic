@@ -2,9 +2,9 @@
 
 angular.module('mymusicApp.controllers')
 
-.controller('playlistsController', ['$scope', '$http', 'CONFIG', 'angularPlayer', function ($scope, $http, CONFIG, angularPlayer) {
+.controller('playlistsController', ['$scope', 'playlistFactory', 'angularPlayer', function ($scope, playlistFactory, angularPlayer) {
   // recuperation des playlists
-  $http.get(CONFIG.API_URL + 'playlists').then(function successCallback (response) {
+  playlistFactory.get().then(function successCallback (response) {
     $scope.playlists = response.data
     $scope.loaded = true
   })
@@ -17,19 +17,19 @@ angular.module('mymusicApp.controllers')
 }])
 
 // controller de form playlist
-.controller('playlistFormController', ['$scope', '$http', '$routeParams', '$document', '$location', 'CONFIG', function ($scope, $http, $routeParams, $document, $location, CONFIG) {
+.controller('playlistFormController', ['$scope', 'playlistFactory', 'musiqueFactory', '$routeParams', '$document', '$location', function ($scope, playlistFactory, musiqueFactory, $routeParams, $document, $location) {
   $scope.playlist = {}
   $scope.playlist.musiques = []
   $scope.action = 'add'
 
   // recuperation des musiques
-  $http.get(CONFIG.API_URL + 'musiques').then(function successCallback (response) {
+  musiqueFactory.get().then(function successCallback (response) {
     $scope.musiques = response.data
   })
 
   // recuperation de la playlist
   if ($routeParams.id) {
-    $http.get(CONFIG.API_URL + 'playlists/' + encodeURIComponent(JSON.stringify({id: $routeParams.id}))).then(function successCallback (response) {
+    playlistFactory.find({id: $routeParams.id}).then(function successCallback (response) {
       // on check l'utilisateur
       if (response.data[0].utilisateur.id !== $scope.utilisateur.id) {
         $location.path('playlists')
@@ -43,10 +43,9 @@ angular.module('mymusicApp.controllers')
   $scope.submitForm = function () {
     if ($scope.playlist.musiques !== undefined && $scope.playlist.musiques.length !== 0) {
       $scope.submitted = true
-      $scope.playlist.utilisateur = $scope.utilisateur
       // edit
       if ($scope.action === 'edit') {
-        $http.put(CONFIG.API_URL + 'playlists/' + $scope.playlist.id, $scope.playlist).then(function successCallback (response) {
+        playlistFactory.edit($scope.playlist).then(function successCallback (response) {
           $location.path('playlists')
         }, function errorCallback (response) {
           $scope.alert = response.data
@@ -54,7 +53,7 @@ angular.module('mymusicApp.controllers')
         })
       // Ajout
       } else {
-        $http.post(CONFIG.API_URL + 'playlists/', $scope.playlist).then(function successCallback (response) {
+        playlistFactory.add($scope.playlist).then(function successCallback (response) {
           $location.path('playlists')
         }, function errorCallback (response) {
           $scope.alert = response.data
@@ -114,7 +113,7 @@ angular.module('mymusicApp.controllers')
   }
   // supression de la playlist
   $scope.delete = function () {
-    $http.delete(CONFIG.API_URL + 'playlist/' + $routeParams.id).then(function successCallback (response) {
+    playlistFactory.delete($scope.playlist).then(function successCallback (response) {
       $location.path('playlists')
     }, function errorCallback (response) {
       $scope.alert = response.data

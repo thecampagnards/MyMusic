@@ -67,7 +67,8 @@
         <td music-player="play" add-song="musique">
           <div class="col-xs-6 col-md-3">
             <a class="thumbnail">
-              <img height="20px" check-image ng-src="{{ musique.image }}">
+              <img ng-if="musique.image" height="20px" ng-src="{{ musique.image }}">
+              <img ng-if="!musique.image" height="20px" src="img/no-media.gif">
             </a>
           </div>
         </td>

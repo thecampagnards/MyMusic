@@ -2,25 +2,24 @@
 
 angular.module('mymusicApp.controllers', [])
 
-.controller('mainController', ['$scope', 'loginService', function ($scope, loginService) {
-  // Logout
+.controller('mainController', ['$scope', 'utilisateurFactory', function ($scope, utilisateurFactory) {
   $scope.logout = function () {
-    loginService.logout()
+    utilisateurFactory.logout()
   }
 }])
 
 .controller('errorController', function () {})
 
-.controller('identificationController', ['$rootScope', '$scope', 'loginService', function ($rootScope, $scope, loginService) {
+.controller('identificationController', ['$rootScope', '$scope', 'utilisateurFactory', function ($rootScope, $scope, utilisateurFactory) {
   $rootScope.showPlayer = false
   $scope.login = function (utilisateur) {
-    loginService.login(utilisateur, $scope)
+    utilisateurFactory.login(utilisateur, $scope)
   }
 }])
 
-.controller('inscriptionController', ['$rootScope', '$scope', 'loginService', function ($rootScope, $scope, loginService) {
+.controller('inscriptionController', ['$rootScope', '$scope', 'utilisateurFactory', function ($rootScope, $scope, utilisateurFactory) {
   $rootScope.showPlayer = false
   $scope.inscription = function (utilisateur) {
-    loginService.inscription(utilisateur, $scope)
+    utilisateurFactory.inscription(utilisateur)
   }
 }])

@@ -2,12 +2,6 @@
 
 angular.module('mymusicApp.directives', [])
 
-.filter('secondsToDateTime', [function () {
-  return function (seconds) {
-    return new Date(1970, 0, 1).setSeconds(seconds)
-  }
-}])
-
 .directive('ngConfirmClick', [ function () {
   return {
     priority: -1,
@@ -56,33 +50,3 @@ angular.module('mymusicApp.directives', [])
     }
   }
 }])
-
-.directive('fileModel', ['$parse', function ($parse) {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      var model = $parse(attrs.fileModel)
-      var modelSetter = model.assign
-      element.bind('change', function () {
-        scope.$apply(function () {
-          modelSetter(scope, element[0].files[0])
-        })
-      })
-    }
-  }
-}])
-
-.directive('checkImage', function ($http) {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attrs) {
-      attrs.$observe('ngSrc', function (ngSrc) {
-        var img = new Image()
-        img.onerror = function () {
-          element.attr('src', 'img/no-media.gif')
-        }
-        img.src = ngSrc
-      })
-    }
-  }
-})

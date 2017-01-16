@@ -58,11 +58,11 @@ angular.module('mymusicApp', [
   })
 }])
 
-.run(['$rootScope', '$location', 'loginService', '$route', function ($rootScope, $location, loginService, $route) {
+.run(['$rootScope', '$location', 'utilisateurFactory', '$route', function ($rootScope, $location, utilisateurFactory) {
   $rootScope.$on('$routeChangeStart', function (event) {
     $rootScope.showPlayer = true
     var routesAuth = ['/musiques/ajouter', '/musiques/editer/:id', '/playlists/ajouter', '/playlists/editer/:id']
-    if (!loginService.isLogged() && routesAuth.indexOf($location.path()) !== -1) {
+    if (!utilisateurFactory.isLogged() && routesAuth.indexOf($location.path()) !== -1) {
       event.preventDefault()
       $location.path('/identification')
     }

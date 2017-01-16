@@ -30,7 +30,10 @@
     <label>Lien</label>
     <input type="url" class="form-control" placeholder="Lien" ng-model="musique.url">
   </div>
-
+  <div class="form-group">
+    <label>Etat</label>
+    <input type="number" class="form-control" placeholder="Etat" ng-model="musique.etat">
+  </div>
   <div class="pull-right">
     <a href="musique" class="btn btn-default" ng-confirm-click="Êtes-vous sûr de vouloir annuler ?">Annuler</a>
     <a ng-if="action == 'edit'" class="btn btn-danger" ng-click="delete()" ng-confirm-click="Êtes-vous sûr de vouloir supprimer ?">Supprimer</a>
