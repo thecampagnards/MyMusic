@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mymusicApp.services')
+angular.module('mymusicApp.factories')
 
 .factory('utilisateurFactory', ['$http', '$location', 'sessionFactory', 'CONFIG', '$rootScope', function ($http, $location, sessionFactory, CONFIG, $rootScope) {
   var init = function (response) {

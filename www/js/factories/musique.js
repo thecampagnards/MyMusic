@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('mymusicApp.services')
+angular.module('mymusicApp.factories')
 
 .factory('musiqueFactory', ['$http', '$rootScope', 'CONFIG', function ($http, $rootScope, CONFIG) {
   return {

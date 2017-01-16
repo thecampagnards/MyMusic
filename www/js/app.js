@@ -4,10 +4,11 @@ angular.module('mymusicApp', [
   'ngRoute',
   'angularSoundManager',
   'ui.bootstrap',
+  'templates',
   'mymusicApp.config',
   'mymusicApp.directives',
   'mymusicApp.filters',
-  'mymusicApp.services',
+  'mymusicApp.factories',
   'mymusicApp.controllers'
 ])
 
@@ -18,39 +19,39 @@ angular.module('mymusicApp', [
   })
   $routeProvider
   .when('/', {
-    templateUrl: 'partials/home.html',
+    templateUrl: 'home.html',
     controller: 'homeController'
   })
   .when('/inscription', {
-    templateUrl: 'partials/inscription.html',
+    templateUrl: 'inscription.html',
     controller: 'inscriptionController'
   })
   .when('/identification', {
-    templateUrl: 'partials/identification.html',
+    templateUrl: 'identification.html',
     controller: 'identificationController'
   })
   .when('/musiques', {
-    templateUrl: 'partials/musiques.html',
+    templateUrl: 'musiques.html',
     controller: 'musiquesController'
   })
   .when('/musiques/ajouter', {
-    templateUrl: 'partials/musique-form.html',
+    templateUrl: 'musique-form.html',
     controller: 'musiqueFormController'
   })
   .when('/musiques/editer/:id', {
-    templateUrl: 'partials/musique-form.html',
+    templateUrl: 'musique-form.html',
     controller: 'musiqueFormController'
   })
   .when('/playlists', {
-    templateUrl: 'partials/playlists.html',
+    templateUrl: 'playlists.html',
     controller: 'playlistsController'
   })
   .when('/playlists/ajouter', {
-    templateUrl: 'partials/playlist-form.html',
+    templateUrl: 'playlist-form.html',
     controller: 'playlistFormController'
   })
   .when('/playlists/editer/:id', {
-    templateUrl: 'partials/playlist-form.html',
+    templateUrl: 'playlist-form.html',
     controller: 'playlistFormController'
   })
   .otherwise({
