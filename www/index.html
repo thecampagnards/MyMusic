@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>MyMusic</title>
-  <base href="/" />
+  <base href="/mymusic/www/" />
 
   <link rel="icon" type="image/png" href="img/logo.png" />
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
@@ -12,11 +12,11 @@
   <link rel="stylesheet" href="css/main.css" />
 </head>
 
-<body ng-controller="mainController" ng-class="{logout: isLogged == false}">
-  <nav class="navbar navbar-default" ng-show="isLogged">
+<body ng-controller="mainController">
+  <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#/">
+        <a class="navbar-brand" href=".">
           <span><img src="img/logo.png" height="30"></span> MyMusic
         </a>
       </div>
@@ -24,9 +24,10 @@
         <li><a href="."><i class="fa fa-home"></i> Accueil</a></li>
         <li><a href="musiques"><i class="fa fa-music"></i> Musiques</a></li>
         <li><a href="playlists"><i class="fa fa-list"></i> Playlists</a></li>
-        <li><a href="parametre"><i class="fa fa-gears"></i> Paramètres</a></li>
-        <li class="dropdown">
-          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-power-off"></i> {{ user.pseudo }}</a>
+        <li ng-show="isLogged"><a href="parametre"><i class="fa fa-gears"></i> Paramètres</a></li>
+        <li ng-show="!isLogged"><a href="inscription"><i class="fa fa-power-off" aria-hidden="true"></i> Connexion</a></li>
+        <li class="dropdown" ng-show="isLogged">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-power-off"></i> {{ utilisateur.pseudo }}</a>
           <ul class="dropdown-menu">
             <li><a href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a></li>
           </ul>
@@ -43,7 +44,7 @@
 
   <div id="main">
 
-    <div class="row" ng-show="isLogged">
+    <div class="row" ng-show="showPlayer">
       <div class="col-md-6">
         <sound-manager></sound-manager>
 

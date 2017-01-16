@@ -21,6 +21,10 @@ angular.module('mymusicApp', [
     templateUrl: 'partials/home.html',
     controller: 'homeController'
   })
+  .when('/inscription', {
+    templateUrl: 'partials/inscription.html',
+    controller: 'inscriptionController'
+  })
   .when('/identification', {
     templateUrl: 'partials/identification.html',
     controller: 'identificationController'
@@ -51,5 +55,16 @@ angular.module('mymusicApp', [
   })
   .otherwise({
     redirectTo: '/'
+  })
+}])
+
+.run(['$rootScope', '$location', 'loginService', '$route', function ($rootScope, $location, loginService, $route) {
+  $rootScope.$on('$routeChangeStart', function (event) {
+    $rootScope.showPlayer = true
+    var routesAuth = ['/musiques/ajouter', '/musiques/editer/:id', '/playlists/ajouter', '/playlists/editer/:id']
+    if (!loginService.isLogged() && routesAuth.indexOf($location.path()) !== -1) {
+      event.preventDefault()
+      $location.path('/identification')
+    }
   })
 }])

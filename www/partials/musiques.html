@@ -6,7 +6,7 @@
   <strong>Warning!</strong>{{ alert }}
 </div>
 
-<p>
+<p ng-show="isLogged">
   <a href="musiques/ajouter" class="btn btn-default">Ajouter une musique</a>
   <button play-all="musiques" class="btn btn-default">Jouer toutes les musiques</button>
   <button play-all="musiques" data-play="false" class="btn btn-default">Ajouter toutes les musiques</button>
@@ -61,10 +61,10 @@
     </thead>
     <tbody>
       <tr
-      ng-class="{'info': musique.utilisateur.id === user.id }"
+      ng-class="{'info': musique.utilisateur.id === utilisateur.id }"
       ng-repeat="musique in musiques | filter:search | orderBy:'-id':reverse">
-        <td>{{ musique.id }}</td>
-        <td>
+        <td music-player="play" add-song="musique">{{ musique.id }}</td>
+        <td music-player="play" add-song="musique">
           <div class="col-xs-6 col-md-3">
             <a class="thumbnail">
               <img height="20px" check-image ng-src="{{ musique.image }}">
@@ -72,8 +72,8 @@
           </div>
         </td>
         <td music-player="play" add-song="musique">{{ musique.title }}</td>
-        <td>{{ musique.artist }}</td>
-        <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
+        <td music-player="play" add-song="musique">{{ musique.artist }}</td>
+        <td music-player="play" add-song="musique">{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
         <td class="table-actions">
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-default btn-sm" music-player add-song="musique">
@@ -88,13 +88,13 @@
                   Télécharger
                 </a>
               </li>
-              <li>
-                <a href="musiques/editer/{{ musique.id }}" class="btn" ng-disabled="musique.utilisateur.id !== user.id">
+              <li ng-show="isLogged">
+                <a href="musiques/editer/{{ musique.id }}" class="btn" ng-disabled="musique.utilisateur.id !== utilisateur.id">
                   Editer
                 </a>
               </li>
-              <li>
-                <a ng-click="delete(musique)" class="btn" ng-confirm-click="Êtes-vous sûr de vouloir supprimer « {{ musique.title }} » ?" ng-disabled="musique.utilisateur.id !== user.id">
+              <li ng-show="isLogged">
+                <a ng-click="delete(musique)" class="btn" ng-confirm-click="Êtes-vous sûr de vouloir supprimer « {{ musique.title }} » ?" ng-disabled="musique.utilisateur.id !== utilisateur.id">
                   Supprimer
                 </a>
               </li>

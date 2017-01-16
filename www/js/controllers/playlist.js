@@ -2,13 +2,11 @@
 
 angular.module('mymusicApp.controllers')
 
-.controller('playlistsController', ['$scope', '$http', 'CONFIG', 'loginService', 'angularPlayer', function ($scope, $http, CONFIG, loginService, angularPlayer) {
-  loginService.isLogged().then(function () {
-    // recuperation des playlists
-    $http.get(CONFIG.API_URL + 'playlists').then(function successCallback (response) {
-      $scope.playlists = response.data
-      $scope.loaded = true
-    })
+.controller('playlistsController', ['$scope', '$http', 'CONFIG', 'angularPlayer', function ($scope, $http, CONFIG, angularPlayer) {
+  // recuperation des playlists
+  $http.get(CONFIG.API_URL + 'playlists').then(function successCallback (response) {
+    $scope.playlists = response.data
+    $scope.loaded = true
   })
 
   $scope.addtoPlaylist = function (playlist) {
@@ -19,31 +17,33 @@ angular.module('mymusicApp.controllers')
 }])
 
 // controller de form playlist
-.controller('playlistFormController', ['$rootScope', '$scope', '$http', '$routeParams', '$document', '$location', 'CONFIG', 'loginService', function ($rootScope, $scope, $http, $routeParams, $document, $location, CONFIG, loginService) {
+.controller('playlistFormController', ['$scope', '$http', '$routeParams', '$document', '$location', 'CONFIG', function ($scope, $http, $routeParams, $document, $location, CONFIG) {
   $scope.playlist = {}
   $scope.playlist.musiques = []
   $scope.action = 'add'
 
-  loginService.isLogged().then(function () {
-    // recuperation des musiques
-    $http.get(CONFIG.API_URL + 'musiques').then(function successCallback (response) {
-      $scope.musiques = response.data
-    })
-
-    // recuperation de la playlist
-    if ($routeParams.id) {
-      $http.get(CONFIG.API_URL + 'playlists/' + encodeURIComponent(JSON.stringify({id: $routeParams.id}))).then(function successCallback (response) {
-        $scope.playlist = response.data[0]
-        $scope.action = 'edit'
-      })
-    }
+  // recuperation des musiques
+  $http.get(CONFIG.API_URL + 'musiques').then(function successCallback (response) {
+    $scope.musiques = response.data
   })
+
+  // recuperation de la playlist
+  if ($routeParams.id) {
+    $http.get(CONFIG.API_URL + 'playlists/' + encodeURIComponent(JSON.stringify({id: $routeParams.id}))).then(function successCallback (response) {
+      // on check l'utilisateur
+      if (response.data[0].utilisateur.id !== $scope.utilisateur.id) {
+        $location.path('playlists')
+      }
+      $scope.playlist = response.data[0]
+      $scope.action = 'edit'
+    })
+  }
 
   // Post du formulaire
   $scope.submitForm = function () {
     if ($scope.playlist.musiques !== undefined && $scope.playlist.musiques.length !== 0) {
       $scope.submitted = true
-      $scope.playlist.utilisateur = $rootScope.user
+      $scope.playlist.utilisateur = $scope.utilisateur
       // edit
       if ($scope.action === 'edit') {
         $http.put(CONFIG.API_URL + 'playlists/' + $scope.playlist.id, $scope.playlist).then(function successCallback (response) {
