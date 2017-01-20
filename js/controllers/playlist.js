@@ -2,18 +2,14 @@
 
 angular.module('mymusicApp.controllers')
 
-.controller('playlistsController', ['$scope', 'playlistFactory', 'angularPlayer', function ($scope, playlistFactory, angularPlayer) {
+.controller('playlistsController', ['$scope', 'playlistFactory', function ($scope, playlistFactory) {
   // recuperation des playlists
   playlistFactory.get().then(function successCallback (response) {
     $scope.playlists = response.data
     $scope.loaded = true
   })
 
-  $scope.addtoPlaylist = function (playlist) {
-    for (var i = 0; i < playlist.musiques.length; i++) {
-      angularPlayer.addTrack(playlist.musiques[i])
-    }
-  }
+  $scope.addPlaylist = playlistFactory.addPlaylist
 }])
 
 // controller de form playlist
@@ -43,23 +39,15 @@ angular.module('mymusicApp.controllers')
   $scope.submitForm = function () {
     if ($scope.playlist.musiques !== undefined && $scope.playlist.musiques.length !== 0) {
       $scope.submitted = true
-      // edit
-      if ($scope.action === 'edit') {
-        playlistFactory.edit($scope.playlist).then(function successCallback (response) {
-          $location.path('playlists')
-        }, function errorCallback (response) {
-          $scope.alert = response.data
-          $document.scrollTop(0, 250)
-        })
-      // Ajout
-      } else {
-        playlistFactory.add($scope.playlist).then(function successCallback (response) {
-          $location.path('playlists')
-        }, function errorCallback (response) {
-          $scope.alert = response.data
-          $document.scrollTop(0, 250)
-        })
-      }
+      playlistFactory.push($scope.playlist).then(function successCallback (response) {
+        // $location.path('playlists')
+        console.log(response)
+        $scope.playlist = response.data
+      }, function errorCallback (response) {
+        console.log(response)
+        $scope.alert = response.data
+        $document.scrollTop(0, 250)
+      })
     } else {
       $scope.alert = 'Vous devez ajouter des musique à votre playlist.'
       $document.scrollTop(0, 250)

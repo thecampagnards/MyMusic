@@ -6,8 +6,8 @@
   <strong>Warning!</strong>{{ alert }}
 </div>
 
-<p ng-show="isLogged">
-  <a href="musiques/ajouter" class="btn btn-default">Ajouter une musique</a>
+<p>
+  <a ng-show="isLogged" href="musiques/ajouter" class="btn btn-default">Ajouter une musique</a>
   <button play-all="musiques" class="btn btn-default">Jouer toutes les musiques</button>
   <button play-all="musiques" data-play="false" class="btn btn-default">Ajouter toutes les musiques</button>
 </p>
@@ -24,8 +24,8 @@
     <thead>
       <tr ng-hide="(musiques | filter:search).length == 0">
         <th>
-          <a ng-click="orderByField = '-id'; sortReverse=!sortReverse">Id</a>
-          <span ng-show="orderByField == '-id'">
+          <a ng-click="orderByField = '-listen'; sortReverse=!sortReverse">Vue</a>
+          <span ng-show="orderByField == '-listen'">
             <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
             <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
           </span>
@@ -63,7 +63,7 @@
       <tr
       ng-class="{'info': musique.utilisateur.id === utilisateur.id }"
       ng-repeat="musique in musiques | filter:search | orderBy:'-id':reverse">
-        <td music-player="play" add-song="musique">{{ musique.id }}</td>
+        <td music-player="play" add-song="musique">{{ musique.listen || 0 }}</td>
         <td music-player="play" add-song="musique">
           <div class="col-xs-6 col-md-3">
             <a class="thumbnail">

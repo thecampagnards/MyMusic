@@ -12,17 +12,39 @@ angular.module('mymusicApp.factories')
     },
     add: function (musique) {
       musique.utilisateur = $rootScope.utilisateur
-      console.log(musique)
-      return $http.post(CONFIG.API_URL + 'musiques', musique)
-    },
-    edit: function (musique) {
-      musique.utilisateur = $rootScope.utilisateur
-      return $http.put(CONFIG.API_URL + 'musiques/' + musique.id, musique)
+      // return $http.post(CONFIG.API_URL + 'musiques', musique)
+      return $http({
+        method: 'POST',
+        url: CONFIG.API_URL + 'musiques',
+        headers: {
+          'Content-Type': undefined
+        },
+        data: {
+          musique: musique,
+          file: musique.file,
+          cover: musique.cover
+        },
+        transformRequest: function (data) {
+          var formData = new FormData()
+          angular.forEach(data, function (value, key) {
+            if (key === 'musique') {
+              value = JSON.stringify(value)
+            }
+            formData.append(key, value)
+          })
+          return formData
+        }
+      })
     },
     delete: function (musique) {
       if (musique.utilisateur.id === $rootScope.utilisateur.id) {
         return $http.delete(CONFIG.API_URL + 'musiques/' + musique.id)
       }
+    },
+    listen: function (musiqueId) {
+      $http.get(CONFIG.API_URL + 'musiques/listen/' + musiqueId).then(function successCallback (response) {
+        return response
+      })
     }
   }
 }])

@@ -2,23 +2,16 @@
 
 angular.module('mymusicApp.factories')
 
-.factory('sessionFactory', function () {
+.factory('sessionFactory', ['$cookies', function ($cookies) {
   return {
     set: function (key, value) {
-      if (typeof value === 'object') {
-        value = JSON.stringify(value)
-      }
-      return window.sessionStorage.setItem(key, value)
+      return $cookies.putObject(key, value)
     },
     get: function (key) {
-      try {
-        return JSON.parse(window.sessionStorage.getItem(key))
-      } catch (e) {
-        return window.sessionStorage.getItem(key)
-      }
+      return $cookies.getObject(key)
     },
     destroy: function (key) {
-      return window.sessionStorage.removeItem(key)
+      return $cookies.remove(key)
     }
   }
-})
+}])

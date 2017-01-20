@@ -21,11 +21,12 @@
         <li><a href="musiques"><i class="fa fa-music"></i> Musiques</a></li>
         <li><a href="playlists"><i class="fa fa-list"></i> Playlists</a></li>
         <li ng-show="isLogged"><a href="parametre"><i class="fa fa-gears"></i> Paramètres</a></li>
-        <li ng-show="!isLogged"><a href="inscription"><i class="fa fa-power-off" aria-hidden="true"></i> Connexion</a></li>
+        <li ng-show="!isLogged"><a href="identification"><i class="fa fa-power-off" aria-hidden="true"></i> Connexion</a></li>
         <li class="dropdown" ng-show="isLogged">
-          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-power-off"></i> {{ utilisateur.pseudo }}</a>
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> {{ utilisateur.pseudo }}</a>
           <ul class="dropdown-menu">
-            <li><a href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a></li>
+            <li><a href="mon-compte"><i class="fa fa-user"></i> Mon Compte</a></li>
+            <li><a ng-click="logout()"><i class="fa fa-sign-out"></i> Déconnexion</a></li>
           </ul>
         </li>
       </ul>
@@ -81,6 +82,13 @@
           <button clear-playlist class="btn btn-default"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></button>
           <button mix-playlist class="btn btn-default"><span class="glyphicon glyphicon-random" aria-hidden="true"></button>
         </div>
+        <br/><br/>
+        <form class="form-inline">
+        <div class="form-group">
+          <label for="timer">Minuteur (par musique) : </label>
+          <input type="time" id="timer" class="form-control" placeholder="Timer" ng-model="timer"/>
+        </div>
+      </form>
       </div>
       <div class="col-sm-6">
         <div class="panel panel-primary">

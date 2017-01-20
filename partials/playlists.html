@@ -6,8 +6,8 @@
   <strong>Warning!</strong>{{ alert }}
 </div>
 
-<p ng-show="isLogged">
-  <a href="playlists/ajouter" class="btn btn-default">Ajouter une playlist</a>
+<p>
+  <a ng-show="isLogged" href="playlists/ajouter" class="btn btn-default">Ajouter une playlist</a>
 </p>
 
 <div class="alert alert-info" role="alert" ng-hide="loaded">
@@ -23,7 +23,7 @@
       <h3 class="panel-title clearfix">
         <span class="pull-left">{{ playlist.title }}</span>
         <a ng-show="playlist.utilisateur.id === utilisateur.id" ng-href="playlists/editer/{{ playlist.id }}" class="btn btn-xs btn-default pull-right">Editer</a>
-        <a ng-click="addtoPlaylist(playlist)" class="btn btn-xs btn-default pull-right">Ajouter à l'écoute</a>
+        <a ng-click="addPlaylist(playlist.musiques)" class="btn btn-xs btn-default pull-right">Ajouter à l'écoute</a>
       </h3>
     </div>
     <table class="table table-condensed table-striped">

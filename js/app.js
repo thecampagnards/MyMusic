@@ -2,6 +2,7 @@
 
 angular.module('mymusicApp', [
   'ngRoute',
+  'ngCookies',
   'angularSoundManager',
   'ui.bootstrap',
   'templates',
@@ -12,7 +13,18 @@ angular.module('mymusicApp', [
   'mymusicApp.controllers'
 ])
 
-.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
+  $httpProvider.interceptors.push(['$q', '$location', function ($q, $location) {
+    return {
+      responseError: function (rejection) {
+        // si non autorisé on redirige vers la page d'identification
+        if (rejection.status === 401) {
+          $location.path('/identification')
+        }
+        return $q.reject(rejection)
+      }
+    }
+  }])
   $locationProvider.html5Mode({
     enabled: true,
     requireBase: false
@@ -29,6 +41,10 @@ angular.module('mymusicApp', [
   .when('/identification', {
     templateUrl: 'identification.html',
     controller: 'identificationController'
+  })
+  .when('/mon-compte', {
+    templateUrl: 'mon-compte.html',
+    controller: 'monCompteController'
   })
   .when('/musiques', {
     templateUrl: 'musiques.html',
@@ -59,10 +75,12 @@ angular.module('mymusicApp', [
   })
 }])
 
-.run(['$rootScope', '$location', 'utilisateurFactory', '$route', function ($rootScope, $location, utilisateurFactory) {
+.run(['$rootScope', '$location', 'utilisateurFactory', 'sessionFactory', function ($rootScope, $location, utilisateurFactory, sessionFactory) {
+  // on recharge la derniere playlist au chargement
+  utilisateurFactory.player()
   $rootScope.$on('$routeChangeStart', function (event) {
     $rootScope.showPlayer = true
-    var routesAuth = ['/musiques/ajouter', '/musiques/editer/:id', '/playlists/ajouter', '/playlists/editer/:id']
+    var routesAuth = ['/musiques/ajouter', '/musiques/editer/:id', '/playlists/ajouter', '/playlists/editer/:id', '/mon-compte']
     if (!utilisateurFactory.isLogged() && routesAuth.indexOf($location.path()) !== -1) {
       event.preventDefault()
       $location.path('/identification')
