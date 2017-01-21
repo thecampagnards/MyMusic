@@ -15,6 +15,7 @@ angular.module('mymusicApp.controllers')
 // controller de form playlist
 .controller('playlistFormController', ['$scope', 'playlistFactory', 'musiqueFactory', '$routeParams', '$document', '$location', function ($scope, playlistFactory, musiqueFactory, $routeParams, $document, $location) {
   $scope.playlist = {}
+  $scope.playlist.state = 1
   $scope.playlist.musiques = []
   $scope.action = 'add'
 

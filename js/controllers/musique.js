@@ -27,6 +27,7 @@ angular.module('mymusicApp.controllers')
 // controlleur du form de la musique
 .controller('musiqueFormController', ['$scope', '$routeParams', '$document', '$location', 'musiqueFactory', function ($scope, $routeParams, $document, $location, musiqueFactory) {
   $scope.musique = {}
+  $scope.musique.state = 1
   $scope.action = 'add'
 
   // recuperation de la musique
@@ -43,13 +44,21 @@ angular.module('mymusicApp.controllers')
 
   // Post du formulaire
   $scope.submitForm = function () {
-    $scope.submitted = true
-    musiqueFactory.add($scope.musique).then(function successCallback (response) {
-      $scope.musique = response.data
-    }, function errorCallback (response) {
-      $scope.alert = response.data
+    if ($scope.musique.url !== undefined || $scope.musique.file !== undefined) {
+      $scope.submitted = true
+      musiqueFactory.add($scope.musique).then(function successCallback (response) {
+        $scope.musique = response.data
+        $scope.submitted = false
+        $scope.success = true
+      }, function errorCallback (response) {
+        $scope.alert = response.data
+        $document.scrollTop(0, 250)
+        $scope.submitted = false
+      })
+    } else {
+      $scope.alert = 'Vous devez ajouter soit une url soit un fichier mp3.'
       $document.scrollTop(0, 250)
-    })
+    }
   }
   // reinitialisation du form
   $scope.reinitialiser = function () {
