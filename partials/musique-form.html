@@ -43,7 +43,7 @@
     <input id="musiqueFichier" file-model="musique.file" placeholder="Fichier" type="file" class="file-loading">
   </div>
   <div class="form-group">
-    <label>Etat</label>
+    <label>Etat *</label>
     <br/>
     <div class="btn-group" data-toggle="buttons">
         <input type="radio" ng-model="musique.state" ng-value="1" integer checked="checked"> Public
@@ -65,21 +65,29 @@
 </form>
 
 <script>
+
+$(document).ready(function(){
+  var scope = angular.element($('body[ng-controller="mainController"]')).scope()
+  var initialPreview = false
+  if (scope.$$childTail.musique.image !== undefined) {
+    initialPreview = ['<img src="'+scope.$$childTail.musique.image+'" height="200" width="200">']
+  }
+
   $("#musiqueImage").fileinput({
-    initialPreview: [
-      '<img src="{{ musique.image }}" height="200" width="200">'
-    ],
+    initialPreview: initialPreview,
     language: "fr",
     allowedFileTypes: ["image"],
     showRemove: false,
     showUpload: false,
     overwriteInitial: true
-  });
+  })
+
   $("#musiqueFichier").fileinput({
     language: "fr",
     allowedFileTypes: ["audio"],
     showRemove: false,
     showUpload: false,
     overwriteInitial: true
-  });
+  })
+})
 </script>

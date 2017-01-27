@@ -2,7 +2,10 @@
 
 angular.module('mymusicApp.controllers')
 // controlleur de la page musiques
-.controller('musiquesController', ['$scope', 'musiqueFactory', '$document', function ($scope, musiqueFactory, $document) {
+.controller('musiquesController', ['$scope', '$routeParams', 'musiqueFactory', function ($scope, $routeParams, musiqueFactory) {
+  if ($routeParams.order !== undefined) {
+    $scope.orderByField = '-' + $routeParams.order
+  }
   // recuperation des musiques
   musiqueFactory.get().then(function successCallback (response) {
     $scope.musiques = response.data

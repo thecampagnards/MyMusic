@@ -16,3 +16,9 @@ angular.module('mymusicApp.filters', [])
     }
   }
 })
+
+.filter('dateToISO', function () {
+  return function (badTime) {
+    return badTime.replace(/(.+) (.+)/, '$1T$2+0100')
+  }
+})

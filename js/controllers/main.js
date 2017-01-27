@@ -3,7 +3,6 @@
 angular.module('mymusicApp.controllers', [])
 
 .controller('mainController', ['$scope', 'musiqueFactory', 'angularPlayer', 'sessionFactory', '$timeout', function ($scope, musiqueFactory, angularPlayer, sessionFactory, $timeout) {
-
   $scope.isNavCollapsed = true
   $scope.isCollapsed = false
   $scope.isCollapsedHorizontal = false
@@ -42,22 +41,20 @@ angular.module('mymusicApp.controllers', [])
   $scope.sortableOptions = {
     // @TODO voir pour eviter de stopper l'actuelle
     stop: function (e, ui) {
-      /*var playlist = $scope.playlist
-      var player = angularPlayer.getPlaylist()
+      /*var player = angularPlayer.getPlaylist()
       var current = angularPlayer.getCurrentTrack()
       for (var i = 0; i < player.length; i++) {
         if (player[i].id !== current) {
-          angularPlayer.removeSong(player[i].id)
+          $timeout(function (p) {
+            console.log(p.musique.id)
+
+            angularPlayer.removeSong(p.musique.id)
+            angularPlayer.addTrack(p.musique)
+
+          }, 0, true, {musique: player[i]})
         }
-        //angularPlayer.addTrack(playlist[i])
-      }
-*/
-      /*
-      angularPlayer.clearPlaylist(function () {
-        for (var i = 0; i < playlist.length; i++) {
-        }
-        angularPlayer.play()
-      })*/
+        angularPlayer.addTrack(player[i])
+      }*/
     },
     axis: 'y'
   }

@@ -8,7 +8,7 @@
 
 <div class="panel" ng-class="class">
   <div class="panel-heading">
-    <h3 class="panel-title clearfix"><span class="pull-left">{{ title }}</span> <a href="musiques" class="btn btn-xs btn-default pull-right">Consulter la liste complète</a></h3>
+    <h3 class="panel-title clearfix"><span class="pull-left">{{ title }}</span> <a ng-href="musiques/{{ orderByField.slice(1) }}" class="btn btn-xs btn-default pull-right">Consulter la liste complète</a></h3>
   </div>
   <table class="table table-condensed table-striped">
     <tbody>

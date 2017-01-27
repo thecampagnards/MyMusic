@@ -19,6 +19,13 @@
         </span>
       </th>
       <th>
+        <a ng-click="orderByField = '-created_at'; sortReverse=!sortReverse">Date</a>
+        <span ng-show="orderByField == '-created_at'">
+          <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+        </span>
+      </th>
+      <th>
         Vignette
       </th>
       <th>
@@ -52,6 +59,7 @@
     ng-class="{'info': musique.utilisateur.id === $root.utilisateur.id }"
     ng-repeat="musique in musiques | filter:search | orderBy:orderByField:sortReverse | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
       <td music-player="play" add-song="musique">{{ musique.listen || 0 }}</td>
+      <td music-player="play" add-song="musique">{{ musique.created_at | dateToISO | date:'d-MMM-yy' }}</td>
       <td music-player="play" add-song="musique">
         <div class="col-xs-6 col-md-3">
           <a class="thumbnail">

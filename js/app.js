@@ -58,6 +58,10 @@ angular.module('mymusicApp', [
     templateUrl: 'musique-form.html',
     controller: 'musiqueFormController'
   })
+  .when('/musiques/:order', {
+    templateUrl: 'musiques.html',
+    controller: 'musiquesController'
+  })
   .when('/playlists', {
     templateUrl: 'playlists.html',
     controller: 'playlistsController'
