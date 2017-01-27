@@ -41,7 +41,8 @@ angular.module('mymusicApp.controllers')
     if ($scope.playlist.musiques !== undefined && $scope.playlist.musiques.length !== 0) {
       $scope.submitted = true
       playlistFactory.push($scope.playlist).then(function successCallback (response) {
-        $location.path('playlists/editer/' + response.data.id)
+        // $location.path('playlists/editer/' + response.data.id)
+        $scope.success = true
       }, function errorCallback (response) {
         $scope.alert = response.data
         $document.scrollTop(0, 250)

@@ -34,7 +34,10 @@ angular.module('mymusicApp.controllers')
       $scope.submitted = true
       musiqueFactory.push($scope.musique).then(function successCallback (response) {
         // on redirige vers la nouvelle musique
-        $location.path('musiques/editer/' + response.data.id)
+        // $location.path('musiques/editer/' + response.data.id)
+        $scope.musique = response.data
+        $scope.submitted = false
+        $scope.success = true
       }, function errorCallback (response) {
         $scope.alert = response.data
         $document.scrollTop(0, 250)
