@@ -66,15 +66,15 @@
 
 <script>
 
-$(document).ready(function(){
-  var scope = angular.element($('body[ng-controller="mainController"]')).scope()
+//$(document).ready(function(){
+  /*var scope = angular.element($('body[ng-controller="mainController"]')).scope()
   var initialPreview = false
   if (scope.$$childTail.musique.image !== undefined) {
     initialPreview = ['<img src="'+scope.$$childTail.musique.image+'" height="200" width="200">']
-  }
+  }*/
 
   $("#musiqueImage").fileinput({
-    initialPreview: initialPreview,
+    initialPreview: ['<img src="{{musique.image}}" height="200" width="200">'],
     language: "fr",
     allowedFileTypes: ["image"],
     showRemove: false,
@@ -89,5 +89,5 @@ $(document).ready(function(){
     showUpload: false,
     overwriteInitial: true
   })
-})
+//})
 </script>
