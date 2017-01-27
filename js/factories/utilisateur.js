@@ -2,7 +2,7 @@
 
 angular.module('mymusicApp.factories')
 
-.factory('utilisateurFactory', ['$http', '$location', 'sessionFactory', 'angularPlayer', 'CONFIG', '$rootScope', '$timeout', function ($http, $location, sessionFactory, angularPlayer, CONFIG, $rootScope, $timeout) {
+.factory('utilisateurFactory', ['$http', '$location', 'sessionFactory', 'CONFIG', '$rootScope', function ($http, $location, sessionFactory, CONFIG, $rootScope) {
   var init = function (response) {
     sessionFactory.set('utilisateur', response.data)
     $http.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
@@ -47,26 +47,6 @@ angular.module('mymusicApp.factories')
         $rootScope.utilisateur.id = null
         return false
       }
-    },
-    player: function () {
-      $timeout(function () {
-        var playlist = sessionFactory.get('playlist')
-        var musique = sessionFactory.get('musique')
-        var isPlaying = sessionFactory.get('isPlaying')
-        // @TODO a faire placer le curseur sur la bonne position
-        var position = sessionFactory.get('position')
-        for (var i = 0; i < playlist.length; i++) {
-          angularPlayer.addTrack(playlist[i])
-        }
-        if (musique !== undefined) {
-          if (isPlaying) {
-            angularPlayer.playTrack(musique)
-          } else {
-            // @TODO voir pour l'affichage
-            angularPlayer.setCurrentTrack(musique)
-          }
-        }
-      }, 0, false)
     }
   }
 }])

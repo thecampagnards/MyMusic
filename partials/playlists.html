@@ -1,4 +1,4 @@
-<h1>Les playlists <small>/ Liste <span ng-show="playlists">({{ (playlists | filter:search).length }})</span></small></h1>
+<h1>Playlists <small>/ Liste <span ng-show="playlists">({{ (playlists | filter:search).length }})</span></small></h1>
 <hr />
 
 <div class="alert alert-warning alert-dismissible" role="alert" ng-show="alert">
@@ -7,33 +7,23 @@
 </div>
 
 <p>
-  <a ng-show="isLogged" href="playlists/ajouter" class="btn btn-default">Ajouter une playlist</a>
+  <a ng-show="$root.isLogged" href="playlists/ajouter" class="btn btn-default">Ajouter une playlist</a>
 </p>
 
-<div class="alert alert-info" role="alert" ng-hide="loaded">
+<ul uib-pagination previous-text="Précédent" next-text="Suivant" first-text="Début" last-text="Fin" total-items="(playlists | filter:search).length" ng-model="currentPage" max-size="10" boundary-links="true" force-ellipses="true"></ul>
+
+
+<div class="alert alert-info" role="alert" ng-hide="playlists">
   <p class="loading">Chargement en cours, merci de patienter...</p>
 </div>
 <div class="alert alert-info" role="alert" ng-show="(playlists | filter:search).length == 0">
   <p>Aucun résultat<span ng-show="search">, veuillez élargir la recherche</span>.</p>
 </div>
 
-<div class="col-sm-3" ng-repeat="playlist in playlists">
-  <div class="panel panel-danger">
-    <div class="panel-heading">
-      <h3 class="panel-title clearfix">
-        <span class="pull-left">{{ playlist.title }}</span>
-        <a ng-show="playlist.utilisateur.id === utilisateur.id" ng-href="playlists/editer/{{ playlist.id }}" class="btn btn-xs btn-default pull-right">Editer</a>
-        <a ng-click="addPlaylist(playlist.musiques)" class="btn btn-xs btn-default pull-right">Ajouter à l'écoute</a>
-      </h3>
-    </div>
-    <table class="table table-condensed table-striped">
-      <tbody>
-        <tr ng-repeat="musique in playlist.musiques">
-          <td music-player="play" add-song="musique">{{ musique.title }}</td>
-          <td music-player="play" add-song="musique">{{ musique.artist }}</td>
-          <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
-        </tr>
-      </tbody>
-    </table>
+<div class="row">
+  <div class="col-sm-3" ng-repeat="playlist in playlists | startFrom:(currentPage-1)*pageSize | limitTo:pageSize" ng-if="(playlist.musiques | filter:search).length !== 0">
+    <panel-detail-playlist playlist="playlist" class="'panel-danger'" search="search"></panel-detail-playlist>
   </div>
 </div>
+
+<ul uib-pagination previous-text="Précédent" next-text="Suivant" first-text="Début" last-text="Fin" total-items="(playlists | filter:search).length" ng-model="currentPage" max-size="10" boundary-links="true" force-ellipses="true"></ul>

@@ -1,0 +1,80 @@
+
+<ul uib-pagination previous-text="Précédent" next-text="Suivant" first-text="Début" last-text="Fin" total-items="(playlists | filter:search).length" ng-model="currentPage" max-size="10" boundary-links="true" force-ellipses="true"></ul>
+
+<div class="alert alert-info" role="alert" ng-hide="playlists">
+  <p class="loading">Chargement en cours, merci de patienter...</p>
+</div>
+<div class="alert alert-info" role="alert" ng-show="(playlists | filter:search).length == 0">
+  <p>Aucun résultat<span ng-show="search">, veuillez élargir la recherche</span>.</p>
+</div>
+
+<table class="table table-bordered table-condensed">
+  <thead>
+    <tr ng-hide="(playlists | filter:search).length == 0">
+      <th>
+        <a ng-click="orderByField = '-title'; sortReverse=!sortReverse">Titre</a>
+        <span ng-show="orderByField == '-title'">
+          <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+        </span>
+      </th>
+      <th>
+        Musiques
+      </th>
+      <th class="table-actions">
+        Actions
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="playlist in playlists | filter:search | orderBy:orderField:orderReverse | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+      <td>{{ playlist.title }}</td>
+      <td>
+        <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#{{ playlist.id }}" aria-expanded="false">Voir les musiques</button>
+        <div class="collapse" id="{{ playlist.id }}">
+          <br/>
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="musique in playlist.musiques" music-player add-song="musique">
+              {{ musique.title }} - {{ musique.artist }}
+              <button type="button" class="btn btn-default btn-sm" title="Jouer la musique au direct">
+                <span class="glyphicon glyphicon-plus"></span>
+              </button>
+            </li>
+            <li class="list-group-item">
+              <strong>Nombre de musiques : {{ playlist.musiques.length }}</strong>
+            </li>
+          </ul>
+        </div>
+      </td>
+      <td class="table-actions">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default btn-sm" play-musiques="playlist.musiques" title="Ajouter la playlist au direct">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <span class="glyphicon glyphicon-cog"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li>
+              <a class="btn" target="_blank" download>
+                Télécharger
+              </a>
+            </li>
+            <li ng-show="$root.isLogged">
+              <a href="playlist/editer/{{ playlist.id }}" class="btn" ng-disabled="musique.utilisateur.id !== $root.utilisateur.id">
+                Editer
+              </a>
+            </li>
+            <li>
+              <a class="btn" delete-playlist="playlist" ng-disabled="musique.utilisateur.id !== $root.utilisateur.id">
+                Supprimer
+              </a>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ul uib-pagination previous-text="Précédent" next-text="Suivant" first-text="Début" last-text="Fin" total-items="(playlists | filter:search).length" ng-model="currentPage" max-size="10" boundary-links="true" force-ellipses="true"></ul>

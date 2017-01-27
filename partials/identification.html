@@ -3,8 +3,7 @@
     <h1><img src="img/logo.png" height="80" /> MyMusic</h1>
     <p>Remplissez le formulaire ci-dessous pour vous connecter.</p>
     <a href="inscription">Créer un nouveau compte</a>
-    <br/>
-    <br/>
+    <br/><br/>
     <div class="alert alert-danger" role="alert" ng-show="loginMessage">
       <p>{{ loginMessage }}</p>
     </div>
@@ -14,6 +13,6 @@
     <div class="form-group">
       <input type="password" class="form-control" placeholder="Mot de passe" ng-model="utilisateur.password"/>
     </div>
-    <input type="submit" value="S'identifier" class="btn btn-lg btn-block btn-primary" />
+    <input type="submit" value="Se connecter" class="btn btn-lg btn-block btn-primary" />
   </form>
 </div>

@@ -3,13 +3,13 @@
 angular.module('mymusicApp.controllers')
 
 .controller('playlistsController', ['$scope', 'playlistFactory', function ($scope, playlistFactory) {
+  $scope.currentPage = 1
+  $scope.pageSize = 10
   // recuperation des playlists
   playlistFactory.get().then(function successCallback (response) {
     $scope.playlists = response.data
     $scope.loaded = true
   })
-
-  $scope.addPlaylist = playlistFactory.addPlaylist
 }])
 
 // controller de form playlist
@@ -41,8 +41,7 @@ angular.module('mymusicApp.controllers')
     if ($scope.playlist.musiques !== undefined && $scope.playlist.musiques.length !== 0) {
       $scope.submitted = true
       playlistFactory.push($scope.playlist).then(function successCallback (response) {
-        $location.path('playlists')
-        $scope.playlist = response.data
+        $location.path('playlists/editer/' + response.data.id)
       }, function errorCallback (response) {
         $scope.alert = response.data
         $document.scrollTop(0, 250)
@@ -53,7 +52,7 @@ angular.module('mymusicApp.controllers')
     }
   }
 
-  // + et - de la liste product
+  // + et - de la liste des musique
   $scope.addMusiqueList = function (items) {
     // fix pour les boutons simples
     if (!angular.isArray(items)) {
@@ -96,15 +95,8 @@ angular.module('mymusicApp.controllers')
 
   // reinitialisation du form
   $scope.reinitialiser = function () {
-    $scope.playlist = null
-  }
-  // supression de la playlist
-  $scope.delete = function () {
-    playlistFactory.delete($scope.playlist).then(function successCallback (response) {
-      $location.path('playlists')
-    }, function errorCallback (response) {
-      $scope.alert = response.data
-      $document.scrollTop(0, 250)
-    })
+    $scope.playlist = {}
+    $scope.playlist.state = 1
+    $scope.playlist.musiques = []
   }
 }])

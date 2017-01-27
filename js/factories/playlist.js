@@ -2,7 +2,7 @@
 
 angular.module('mymusicApp.factories')
 
-.factory('playlistFactory', ['$http', '$rootScope', '$timeout', 'CONFIG', 'angularPlayer', function ($http, $rootScope, $timeout, CONFIG, angularPlayer) {
+.factory('playlistFactory', ['$http', '$rootScope', 'CONFIG', function ($http, $rootScope, CONFIG) {
   return {
     get: function () {
       return $http.get(CONFIG.API_URL + 'playlists')
@@ -18,13 +18,6 @@ angular.module('mymusicApp.factories')
       if (playlist.utilisateur.id === $rootScope.utilisateur.id) {
         return $http.delete(CONFIG.API_URL + 'playlists/' + playlist.id)
       }
-    },
-    addPlaylist: function (musiques) {
-      $timeout(function () {
-        for (var i = 0; i < musiques.length; i++) {
-          angularPlayer.addTrack(musiques[i])
-        }
-      }, 0, false)
     }
   }
 }])

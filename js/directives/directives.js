@@ -18,39 +18,6 @@ angular.module('mymusicApp.directives', [])
   }
 }])
 
-.directive('mixPlaylist', ['angularPlayer', function (angularPlayer) {
-  return {
-    restrict: 'EA',
-    link: function (scope, element, attrs) {
-      element.bind('click', function (event) {
-        // on recupere les musiques
-        var playlist = angularPlayer.getPlaylist()
-
-        // melange des musiques
-        var j = 0
-        var valI = ''
-        var valJ = valI
-        var l = playlist.length - 1
-        while (l > -1) {
-          j = Math.floor(Math.random() * l)
-          valI = playlist[l]
-          valJ = playlist[j]
-          playlist[l] = valJ
-          playlist[j] = valI
-          l = l - 1
-        }
-
-        // on clean la playlist et on reafecte les musiques mélangées
-        angularPlayer.clearPlaylist(function (data) {
-          for (var i = 0; i < playlist.length; i++) {
-            angularPlayer.addTrack(playlist[i])
-          }
-        })
-      })
-    }
-  }
-}])
-
 .directive('fileModel', ['$parse', function ($parse) {
   return {
     restrict: 'A',
@@ -73,6 +40,35 @@ angular.module('mymusicApp.directives', [])
       ctrl.$parsers.unshift(function (viewValue) {
         return parseInt(viewValue, 10)
       })
+    }
+  }
+})
+
+.directive('isActive', ['$location', function ($location) {
+  return {
+    restrict: 'A',
+    link: function (scope, ele, attr, ctrl) {
+      scope.$on('$routeChangeSuccess', function (event, current, previous) {
+        if (ele[0].href === $location.absUrl()) {
+          angular.element(ele[0].parentNode).attr('class', 'active')
+        } else {
+          angular.element(ele[0].parentNode).attr('class', '')
+        }
+      })
+    }
+  }
+}])
+
+.directive('menu', function () {
+  return {
+    restrict: 'E',
+    scope: false,
+    replace: true,
+    templateUrl: 'components/menu.html',
+    link: function (scope, element, attrs) {
+      scope.isNavCollapsed = true
+      scope.isCollapsed = false
+      scope.isCollapsedHorizontal = false
     }
   }
 })

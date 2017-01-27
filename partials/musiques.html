@@ -1,4 +1,4 @@
-<h1>Les musiques <small>/ Liste <span ng-show="musiques">({{ (musiques | filter:search).length }})</span></small></h1>
+<h1>Musiques <small> <span ng-show="musiques"> / Liste ({{ (musiques | filter:search).length }})</span></small></h1>
 <hr />
 
 <div class="alert alert-warning alert-dismissible" role="alert" ng-show="alert">
@@ -8,101 +8,7 @@
 
 <p>
   <a ng-show="isLogged" href="musiques/ajouter" class="btn btn-default">Ajouter une musique</a>
-  <button play-all="musiques" class="btn btn-default">Jouer toutes les musiques</button>
-  <button play-all="musiques" data-play="false" class="btn btn-default">Ajouter toutes les musiques</button>
+  <button play-all="musiques" class="btn btn-default">Ajouter toutes les musiques au direct</button>
 </p>
 
-<div class="alert alert-info" role="alert" ng-hide="loaded">
-  <p class="loading">Chargement en cours, merci de patienter...</p>
-</div>
-<div class="alert alert-info" role="alert" ng-show="(musiques | filter:search).length == 0">
-  <p>Aucun résultat<span ng-show="search">, veuillez élargir la recherche</span>.</p>
-</div>
-
-<div>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr ng-hide="(musiques | filter:search).length == 0">
-        <th>
-          <a ng-click="orderByField = '-listen'; sortReverse=!sortReverse">Vue</a>
-          <span ng-show="orderByField == '-listen'">
-            <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
-            <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
-          </span>
-        </th>
-        <th>
-          Vignette
-        </th>
-        <th>
-          <a ng-click="orderByField = '-title'; sortReverse=!sortReverse">Titre</a>
-          <span ng-show="orderByField == '-title'">
-            <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
-            <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
-          </span>
-        </th>
-        <th>
-          <a ng-click="orderByField = '-artist'; sortReverse=!sortReverse">Artiste</a>
-          <span ng-show="orderByField == '-artist'">
-            <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
-            <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
-          </span>
-        </th>
-        <th>
-          <a ng-click="orderByField = '-length'; sortReverse=!sortReverse">Temps</a>
-          <span ng-show="orderByField == '-length'">
-            <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
-            <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
-          </span>
-        </th>
-        <th class="table-actions">
-          Actions
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-      ng-class="{'info': musique.utilisateur.id === utilisateur.id }"
-      ng-repeat="musique in musiques | filter:search | orderBy:'-id':reverse">
-        <td music-player="play" add-song="musique">{{ musique.listen || 0 }}</td>
-        <td music-player="play" add-song="musique">
-          <div class="col-xs-6 col-md-3">
-            <a class="thumbnail">
-              <img ng-if="musique.image" height="20px" ng-src="{{ musique.image }}">
-              <img ng-if="!musique.image" height="20px" src="img/no-media.gif">
-            </a>
-          </div>
-        </td>
-        <td music-player="play" add-song="musique">{{ musique.title }}</td>
-        <td music-player="play" add-song="musique">{{ musique.artist }}</td>
-        <td music-player="play" add-song="musique">{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
-        <td class="table-actions">
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default btn-sm" music-player add-song="musique">
-              <span class="glyphicon glyphicon-plus"></span>
-            </button>
-            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <span class="glyphicon glyphicon-cog"></span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right" role="menu">
-              <li>
-                <a ng-href="{{ musique.url }}" class="btn" download>
-                  Télécharger
-                </a>
-              </li>
-              <li ng-show="isLogged">
-                <a href="musiques/editer/{{ musique.id }}" class="btn" ng-disabled="musique.utilisateur.id !== utilisateur.id">
-                  Editer
-                </a>
-              </li>
-              <li ng-show="isLogged">
-                <a ng-click="delete(musique)" class="btn" ng-confirm-click="Êtes-vous sûr de vouloir supprimer « {{ musique.title }} » ?" ng-disabled="musique.utilisateur.id !== utilisateur.id">
-                  Supprimer
-                </a>
-              </li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<table-musique musiques="musiques" order-by-field="'-listen'" sort-reverse="false" search="search"></table-musique>

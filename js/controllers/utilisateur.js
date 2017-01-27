@@ -18,6 +18,4 @@ angular.module('mymusicApp.controllers')
     $scope.historiques = response.data
     $scope.loaded = true
   })
-
-  $scope.addPlaylist = playlistFactory.addPlaylist
 }])

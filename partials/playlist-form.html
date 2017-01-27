@@ -1,22 +1,20 @@
 
 <h1>Playlist <small>/ <span ng-if="action == 'add'">Ajouter</span><span ng-if="action == 'edit'">Édition de la playlist &laquo; {{ playlist.title }} &raquo;</span></small></h1>
-<hr />
+<hr/>
 
 <div class="alert alert-warning alert-dismissible" role="alert" ng-show="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   <strong>Warning!</strong>{{ alert }}
 </div>
 
-<form role="form" class="form-horizontal" ng-submit="submitForm()">
-  <span ng-if="action == 'edit'">
-    <div class="form-group">
-      <label>ID</label>
-      <input type="text" class="form-control" placeholder="ID" ng-model="playlist.id" ng-disabled="action == 'edit'">
-    </div>
-  </span>
+<form role="form" ng-submit="submitForm()">
+  <div class="form-group" ng-if="action == 'edit'">
+    <label>ID</label>
+    <input type="text" class="form-control" placeholder="ID" ng-model="playlist.id" ng-disabled="action == 'edit'">
+  </div>
   <div class="form-group">
     <label>Titre</label>
-    <input type="text" class="form-control" placeholder="Titre" ng-model="playlist.title">
+    <input type="text" class="form-control" placeholder="Titre" ng-model="playlist.title" required="required">
   </div>
   <div class="form-group">
     <label>Etat</label>
@@ -28,7 +26,7 @@
   </div>
 
   <div class="form-group">
-    <label>Liste des musiques</label>
+    <label>Liste des musiques *</label>
     <div class="row">
       <div class="col-md-10">
         <select size="10" class="form-control ng-pristine ng-valid" ng-model="musiqueItems" ng-multiple="true" multiple="true" ng-options="(musique.title+' - '+musique.artist) group by musique.title[0] for musique in musiques track by musique.id"></select>
@@ -68,7 +66,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="musique in playlist.musiques | orderBy:orderByField:sortReverse">
+        <tr ng-repeat="musique in playlist.musiques">
         <td>
           <div class="col-xs-6 col-md-3">
             <a class="thumbnail">
@@ -81,10 +79,10 @@
         <td>{{ musique.artist }}</td>
         <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
         <td class="table-actions">
-          <button type="button" class="btn btn-default btn-sm" music-player="play" add-song="musique">
+          <button type="button" class="btn btn-default btn-sm" music-player="play" add-song="musique" title="Ecouter la musique">
             <span class="glyphicon glyphicon glyphicon-play"></span>
           </button>
-          <button type="button" class="btn btn-default btn-sm" ng-click="deleteMusiqueList(musique)">
+          <button type="button" class="btn btn-default btn-sm" ng-click="deleteMusiqueList(musique)" title="Supprimer la musique de la playlist">
             <span class="glyphicon glyphicon-remove"></span>
           </button>
         </td>

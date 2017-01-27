@@ -9,7 +9,7 @@ var gulp = require('gulp'),
   clean = require('gulp-clean')
 
 gulp.task('template', function () {
-  return gulp.src('./partials/*.html')
+  return gulp.src(['./partials/*.html', './partials/*/*.html'])
     .pipe(templateCache({standalone: true}))
     .pipe(gulp.dest('./dist/'))
 })
@@ -18,13 +18,14 @@ gulp.task('js', ['template'], function () {
   return gulp.src(
     [
       './bower_components/jquery/dist/jquery.min.js',
-      './bower_components/bootstrap/dist/js/bootstrap.min.js',
+      './bower_components/jquery-ui/jquery-ui.min.js',
       './bower_components/angular/angular.min.js',
-      './bower_components/angular-cookies/angular-cookies.min.js',
+      './bower_components/angular-soundmanager2/dist/angular-soundmanager2.min.js',
       './bower_components/angular-route/angular-route.min.js',
+      './bower_components/bootstrap/dist/js/bootstrap.min.js',
       './bower_components/angular-bootstrap/ui-bootstrap.min.js',
       './bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-      './bower_components/angular-soundmanager2/dist/angular-soundmanager2.min.js',
+      './bower_components/angular-ui-sortable/sortable.min.js',
       './bower_components/bootstrap-fileinput/js/fileinput.min.js',
       './bower_components/bootstrap-fileinput/js/locales/fr.js',
       './js/controllers/main.js',
@@ -40,12 +41,12 @@ gulp.task('js', ['template'], function () {
 gulp.task('sass', function () {
   return gulp.src('./sass/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest('./dist/css/'))
 })
 
 gulp.task('css', ['sass'], function () {
   return gulp.src(
-    ['./dist/main.css',
+    ['./dist/css/main.css',
       './bower_components/font-awesome/css/font-awesome.min.css',
       './bower_components/bootstrap/dist/css/bootstrap.min.css',
       './bower_components/bootstrap-fileinput/css/fileinput.min.css'
@@ -65,7 +66,7 @@ gulp.task('build', ['js', 'css'], function () {
 gulp.task('watch', function () {
   gulp.watch('./index.html', ['build'])
   gulp.watch('./sass/*.scss', ['css'])
-  gulp.watch(['./partials/*.html', './js/**/*.js'], ['js'])
+  gulp.watch(['./partials/*.html', './partials/*/*.html', './js/**/*.js'], ['js'])
 })
 
 gulp.task('default', ['build'])

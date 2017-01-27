@@ -11,5 +11,4 @@ angular.module('mymusicApp.controllers')
   playlistFactory.get().then(function successCallback (response) {
     $scope.playlists = response.data
   })
-  $scope.addPlaylist = playlistFactory.addPlaylist
 }])

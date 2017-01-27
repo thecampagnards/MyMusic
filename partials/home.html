@@ -1,41 +1,12 @@
 <h1>Hello! <small>What's going on today?</small></h1>
-<hr />
+<hr/>
 
 <div class="col-sm-6">
-  <div class="panel panel-danger">
-    <div class="panel-heading">
-      <h3 class="panel-title clearfix"><span class="pull-left">Dernières musiques</span> <a href="musiques" class="btn btn-xs btn-default pull-right">Consulter la liste complète</a></h3>
-    </div>
-    <table class="table table-condensed table-striped">
-      <tbody>
-        <tr music-player="play" add-song="musique" ng-repeat="musique in musiques | orderBy:'-id' | limitTo:10 ">
-          <td>{{ musique.listen || 0 }}</td>
-          <td>{{ musique.title }}</td>
-          <td>{{ musique.artist }}</td>
-          <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <panel-musique title="'Dernières musiques'" class="'panel-danger'" musiques="musiques" order-by-field="'-id'" sort-reverse="false" limit="10" search="search"></panel-musique>
 </div>
-
 <div class="col-sm-6">
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <h3 class="panel-title clearfix"><span class="pull-left">Dernières playlists</span> <a href="playlists" class="btn btn-xs btn-default pull-right">Consulter la liste complète</a></h3>
-    </div>
-    <table class="table table-condensed table-striped">
-      <tbody>
-        <tr ng-repeat="playlist in playlists | orderBy:'-id' | limitTo:10 ">
-          <td ng-click="addPlaylist(playlist.musiques)">{{ playlist.title }}</td>
-          <td>de {{ playlist.utilisateur.pseudo }}</td>
-          <td>
-            <span music-player="play" add-song="musique" ng-repeat="musique in playlist.musiques | limitTo:10">
-              {{ musique.title }} - {{ musique.length | secondsToDateTime | date:'mm:ss' }} /
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <panel-musique title="'Musiques les plus écoutées'" class="'panel-info'" musiques="musiques" order-by-field="'-listen'" sort-reverse="false" limit="10" search="search"></panel-musique>
+</div>
+<div class="col-sm-6">
+  <panel-playlist title="'Dernières playlists'" class="'panel-success'" playlists="playlists" order-field="'-id'" order-reverser="false" limit="10" search="search"></panel-playlist>
 </div>

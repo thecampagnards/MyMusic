@@ -2,9 +2,9 @@
 
 angular.module('mymusicApp', [
   'ngRoute',
-  'ngCookies',
   'angularSoundManager',
   'ui.bootstrap',
+  'ui.sortable',
   'templates',
   'mymusicApp.config',
   'mymusicApp.directives',
@@ -75,9 +75,9 @@ angular.module('mymusicApp', [
   })
 }])
 
-.run(['$rootScope', '$location', 'utilisateurFactory', 'sessionFactory', function ($rootScope, $location, utilisateurFactory, sessionFactory) {
+.run(['$rootScope', '$location', 'playerFactory', 'utilisateurFactory', 'sessionFactory', function ($rootScope, $location, playerFactory, utilisateurFactory, sessionFactory) {
   // on recharge la derniere playlist au chargement
-  utilisateurFactory.player()
+  playerFactory.init()
   $rootScope.$on('$routeChangeStart', function (event) {
     $rootScope.showPlayer = true
     var routesAuth = ['/musiques/ajouter', '/musiques/editer/:id', '/playlists/ajouter', '/playlists/editer/:id', '/mon-compte']

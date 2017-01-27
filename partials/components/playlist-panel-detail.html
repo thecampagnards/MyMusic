@@ -1,0 +1,18 @@
+
+<div class="panel" ng-class="class">
+  <div class="panel-heading">
+    <h3 class="panel-title clearfix">
+      <span class="pull-left">{{ playlist.title }}</span>
+      <a ng-show="playlist.utilisateur.id === $root.utilisateur.id" ng-href="playlists/editer/{{ playlist.id }}" class="btn btn-xs btn-default pull-right">Editer</a>
+      <a play-musiques="playlist.musiques" class="btn btn-xs btn-default pull-right">Ajouter au direct</a>
+    </h3>
+  </div>
+  <table class="table table-condensed table-striped">
+    <tbody>
+      <tr ng-repeat="musique in playlist.musiques | filter:search" music-player="play" add-song="musique">
+        <td>{{ musique.title }} de {{ musique.artist }}</td>
+        <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

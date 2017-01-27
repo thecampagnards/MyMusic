@@ -1,0 +1,97 @@
+
+<ul uib-pagination previous-text="Précédent" next-text="Suivant" first-text="Début" last-text="Fin" total-items="(musiques | filter:search).length" ng-model="currentPage" max-size="10" boundary-links="true" force-ellipses="true"></ul>
+
+<div class="alert alert-info" role="alert" ng-hide="musiques">
+  <p class="loading">Chargement en cours, merci de patienter...</p>
+</div>
+<div class="alert alert-info" role="alert" ng-show="(musiques | filter:search).length == 0">
+  <p>Aucun résultat<span ng-show="search">, veuillez élargir la recherche</span>.</p>
+</div>
+
+<table class="table table-bordered table-condensed">
+  <thead>
+    <tr ng-hide="(musiques | filter:search).length == 0">
+      <th>
+        <a ng-click="orderByField = '-listen'; sortReverse=!sortReverse">Vue</a>
+        <span ng-show="orderByField == '-listen'">
+          <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+        </span>
+      </th>
+      <th>
+        Vignette
+      </th>
+      <th>
+        <a ng-click="orderByField = '-title'; sortReverse=!sortReverse">Titre</a>
+        <span ng-show="orderByField == '-title'">
+          <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+        </span>
+      </th>
+      <th>
+        <a ng-click="orderByField = '-artist'; sortReverse=!sortReverse">Artiste</a>
+        <span ng-show="orderByField == '-artist'">
+          <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+        </span>
+      </th>
+      <th>
+        <a ng-click="orderByField = '-length'; sortReverse=!sortReverse">Temps</a>
+        <span ng-show="orderByField == '-length'">
+          <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+        </span>
+      </th>
+      <th class="table-actions">
+        Actions
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+    ng-class="{'info': musique.utilisateur.id === $root.utilisateur.id }"
+    ng-repeat="musique in musiques | filter:search | orderBy:orderByField:sortReverse | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+      <td music-player="play" add-song="musique">{{ musique.listen || 0 }}</td>
+      <td music-player="play" add-song="musique">
+        <div class="col-xs-6 col-md-3">
+          <a class="thumbnail">
+            <img ng-if="musique.image" ng-src="{{ musique.image }}">
+            <img ng-if="!musique.image" src="img/no-media.gif">
+          </a>
+        </div>
+      </td>
+      <td music-player="play" add-song="musique">{{ musique.title }}</td>
+      <td music-player="play" add-song="musique">{{ musique.artist }}</td>
+      <td music-player="play" add-song="musique">{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
+      <td class="table-actions">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default btn-sm" music-player add-song="musique" title="Ajouter la musique au direct">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <span class="glyphicon glyphicon-cog"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li>
+              <a ng-href="{{ musique.url }}" class="btn" target="_blank" download>
+                Télécharger
+              </a>
+            </li>
+            <li ng-show="$root.isLogged">
+              <a href="musiques/editer/{{ musique.id }}" class="btn" ng-disabled="musique.utilisateur.id !== $root.utilisateur.id">
+                Editer
+              </a>
+            </li>
+            <li ng-show="$root.isLogged">
+              <a class="btn" delete-musique="musique" ng-disabled="musique.utilisateur.id !== $root.utilisateur.id">
+                Supprimer
+              </a>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ul uib-pagination previous-text="Précédent" next-text="Suivant" first-text="Début" last-text="Fin" total-items="(musiques | filter:search).length" ng-model="currentPage" max-size="10" boundary-links="true" force-ellipses="true"></ul>

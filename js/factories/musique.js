@@ -10,9 +10,8 @@ angular.module('mymusicApp.factories')
     find: function (params) {
       return $http.get(CONFIG.API_URL + 'musiques/' + encodeURIComponent(JSON.stringify(params)))
     },
-    add: function (musique) {
+    push: function (musique) {
       musique.utilisateur = $rootScope.utilisateur
-      // return $http.post(CONFIG.API_URL + 'musiques', musique)
       return $http({
         method: 'POST',
         url: CONFIG.API_URL + 'musiques',

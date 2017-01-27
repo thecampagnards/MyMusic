@@ -1,0 +1,25 @@
+
+<div class="alert alert-info" role="alert" ng-hide="playlists">
+  <p class="loading">Chargement en cours, merci de patienter...</p>
+</div>
+<div class="alert alert-info" role="alert" ng-show="(playlists | filter:search).length == 0">
+  <p>Aucun résultat<span ng-show="search">, veuillez élargir la recherche</span>.</p>
+</div>
+
+<div class="panel" ng-class="class">
+  <div class="panel-heading">
+    <h3 class="panel-title clearfix"><span class="pull-left">{{ title }}</span> <a href="playlists" class="btn btn-xs btn-default pull-right">Consulter la liste complète</a></h3>
+  </div>
+  <table class="table table-condensed table-striped">
+    <tbody>
+      <tr ng-repeat="playlist in playlists | filter:search | orderBy:orderByField:sortReverse | limitTo:limit" add-musiques="playlist.musiques">
+        <td>{{ playlist.title }} de {{ playlist.utilisateur.pseudo }}</td>
+        <td>
+          <span music-player="play" add-song="musique" ng-repeat="musique in playlist.musiques | limitTo:10">
+            {{ musique.title }} - {{ musique.length | secondsToDateTime | date:'mm:ss' }}<span ng-if="!$last"> / </span>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

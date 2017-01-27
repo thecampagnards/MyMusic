@@ -16,6 +16,7 @@
     "angular-bootstrap": "^2.4.0",
     "bootstrap-fileinput": "^4.3.6",
     "font-awesome": "^4.7.0",
-    "angular-cookies": "^1.6.1"
+    "angular-ui-sortable": "^0.16.1",
+    "jquery-ui": "^1.12.1"
   }
 }
