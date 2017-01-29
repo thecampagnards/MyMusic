@@ -19,6 +19,7 @@
             {{ musique.title }} - {{ musique.length | secondsToDateTime | date:'mm:ss' }}<span ng-if="!$last"> / </span>
           </span>
         </td>
+        <td>{{ playlist.musiques | sumOfValue:'length' | secondsToDateTime | date:'mm:ss' }} d'écoute</td>
       </tr>
     </tbody>
   </table>

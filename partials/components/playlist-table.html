@@ -21,13 +21,20 @@
       <th>
         Musiques
       </th>
+      <th>
+        <a ng-click="orderByField = '-length'; sortReverse=!sortReverse">Temps d'écoute</a>
+        <span ng-show="orderByField == '-length'">
+          <span class="glyphicon glyphicon-chevron-down" ng-show="sortReverse"></span>
+          <span class="glyphicon glyphicon-chevron-up" ng-show="!sortReverse"></span>
+        </span>
+      </th>
       <th class="table-actions">
         Actions
       </th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="playlist in playlists | filter:search | orderBy:orderField:orderReverse | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
+    <tr ng-repeat="playlist in playlists | filter:search | orderBy:orderByField:sortReverse | startFrom:(currentPage-1)*pageSize | limitTo:pageSize">
       <td>{{ playlist.title }}</td>
       <td>
         <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#{{ playlist.id }}" aria-expanded="false">Voir les musiques</button>
@@ -46,6 +53,7 @@
           </ul>
         </div>
       </td>
+      <td>{{ playlist.musiques | sumOfValue:'length' | secondsToDateTime | date:'mm:ss' }}</td>
       <td class="table-actions">
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-default btn-sm" play-musiques="playlist.musiques" title="Ajouter la playlist au direct">

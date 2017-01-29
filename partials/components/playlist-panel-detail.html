@@ -14,5 +14,10 @@
         <td>{{ musique.length | secondsToDateTime | date:'mm:ss' }}</td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2"><b>{{ playlist.musiques | sumOfValue:'length' | secondsToDateTime | date:'mm:ss' }} d'écoute</b></td>
+      </tr>
+    </tfoot>
   </table>
 </div>

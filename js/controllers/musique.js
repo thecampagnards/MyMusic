@@ -41,6 +41,7 @@ angular.module('mymusicApp.controllers')
         $scope.musique = response.data
         $scope.submitted = false
         $scope.success = true
+        $scope.action = 'edit'
       }, function errorCallback (response) {
         $scope.alert = response.data
         $document.scrollTop(0, 250)

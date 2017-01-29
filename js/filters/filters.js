@@ -22,3 +22,16 @@ angular.module('mymusicApp.filters', [])
     return badTime.replace(/(.+) (.+)/, '$1T$2+0100')
   }
 })
+
+.filter('sumOfValue', function () {
+  return function (data, key) {
+    if (angular.isUndefined(data) || angular.isUndefined(key)) {
+      return 0
+    }
+    var sum = 0
+    angular.forEach(data, function (value) {
+      sum = sum + parseInt(value[key])
+    })
+    return sum
+  }
+})
