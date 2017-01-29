@@ -4,7 +4,13 @@ angular.module('mymusicApp.controllers')
 // controlleur de la page musiques
 .controller('musiquesController', ['$scope', '$routeParams', 'musiqueFactory', function ($scope, $routeParams, musiqueFactory) {
   if ($routeParams.order !== undefined) {
+    // affichage en fonction du parametre de la route
     $scope.orderByField = '-' + $routeParams.order
+  } else {
+    // sinon affichage aléatoire
+    /*$scope.orderByField = function () {
+      return 0.5 - Math.random()
+    }*/
   }
   // recuperation des musiques
   musiqueFactory.get().then(function successCallback (response) {

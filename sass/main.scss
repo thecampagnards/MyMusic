@@ -28,6 +28,14 @@ li {
   cursor: pointer;
 }
 
+.panel-heading-player{
+  .panel-title{
+    a{
+      color: #337ab7
+    }
+  }
+}
+
 .table-panel-player{
   overflow-y:auto;
   height:200px;
