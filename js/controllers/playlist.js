@@ -42,7 +42,10 @@ angular.module('mymusicApp.controllers')
       $scope.submitted = true
       playlistFactory.push($scope.playlist).then(function successCallback (response) {
         // $location.path('playlists/editer/' + response.data.id)
+        $scope.playlist = response.data
         $scope.success = true
+        $scope.submitted = false
+        $scope.action = 'edit'
       }, function errorCallback (response) {
         $scope.alert = response.data
         $document.scrollTop(0, 250)
