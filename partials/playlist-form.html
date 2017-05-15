@@ -58,6 +58,9 @@
       <thead>
         <tr>
           <th>
+            Ordre
+          </th>
+          <th>
             Vignette
           </th>
           <th>
@@ -74,8 +77,11 @@
           </th>
         </tr>
       </thead>
-      <tbody>
-        <tr ng-repeat="musique in playlist.musiques">
+      <tbody ui-sortable="sortableOptions" ng-model="playlist.musiques">
+        <tr class="clickable-row" ng-repeat="musique in playlist.musiques">
+        <td style="width:40px">
+          <small><span class="glyphicon glyphicon-move" aria-hidden="true"></span></small>
+        </td>
         <td>
           <div class="col-xs-6 col-md-3">
             <a class="thumbnail">

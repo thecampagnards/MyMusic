@@ -19,6 +19,10 @@ angular.module('mymusicApp.controllers')
   $scope.playlist.musiques = []
   $scope.action = 'add'
 
+  $scope.sortableOptions = {
+    axis: 'y'
+  }
+
   // recuperation des musiques
   musiqueFactory.get().then(function successCallback (response) {
     $scope.musiques = response.data
@@ -46,6 +50,7 @@ angular.module('mymusicApp.controllers')
         $scope.success = true
         $scope.submitted = false
         $scope.action = 'edit'
+        console.log($scope.playlist.musiques)
       }, function errorCallback (response) {
         $scope.alert = response.data
         $document.scrollTop(0, 250)
