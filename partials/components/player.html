@@ -1,23 +1,30 @@
-<div class="col-md-6 col-sm-12">
+<div>
   <sound-manager></sound-manager>
 
-  <div class="page-header">
-    <h2>À l'écoute: {{ currentPlaying.title }} <span ng-if="currentPlaying.artist">de {{ currentPlaying.artist }}</span> <small>{{ currentPostion }} / {{ currentDuration }}</small></h1>
-  </div>
+  <nav class="navbar-default row navbar flex-container">
 
-  <div class="row">
-    <div class="col-xs-3">
+    <div class="flex-item" style="width:10%">
       <a class="thumbnail">
         <img ng-if="currentPlaying.image" ng-src="{{ currentPlaying.image }}">
         <img ng-if="!currentPlaying.image" src="img/no-media.gif">
       </a>
     </div>
 
-    <div class="col-xs-9">
+    <div class="flex-item" style="width:40%">
+      <h4>{{ currentPlaying.title }} <span ng-if="currentPlaying.artist">de {{ currentPlaying.artist }}</span></h4>
       <div class="progress" seek-track>
         <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" ng-style="{width : ( progress + '%' ) }">
           {{ currentPostion }}
         </div>
+      </div>
+    </div>
+
+    <div class="flex-item" style="width:40%">
+
+      <div class="btn-group" role="group">
+        <button play-music ng-disabled="playlist.length == 0" uib-popover-template="'components/player-popover.html'" popover-trigger="'focus'" tabindex="0" type="button" class="btn btn-default">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+        </button>
       </div>
 
       <div class="btn-group" role="group">
@@ -26,7 +33,7 @@
         <button stop-music ng-show="isPlaying" class="btn btn-default"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
         <button prev-track class="btn btn-default"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></button>
         <button next-track class="btn btn-default"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></button>
-        <button repeat-music class="btn btn-default" ng-class="{disabled: !repeat}" title="Répéter le direct"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+        <button repeat-music class="btn btn-default" ng-class="{disabled: !repeat}" title="Répéter le direct" style="cursor: pointer;"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
       </div>
 
       <div class="btn-group" role="group">
@@ -40,41 +47,6 @@
         <button clear-playlist class="btn btn-default"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true" title="Supprimer le direct"></button>
         <button mix-playlist class="btn btn-default"><span class="glyphicon glyphicon-random" aria-hidden="true" title="Mélanger le direct"></button>
       </div>
-      <br/><br/>
-      <form class="form-inline">
-        <div class="form-group">
-          <label for="timer">Minuteur (par musique) : </label>
-          <input type="time" class="form-control" placeholder="Minuteur" ng-model="timer"/>
-        </div>
-      </form>
     </div>
-  </div>
-</div>
-<div class="col-md-6 col-sm-12">
-  <br/>
-  <div class="panel panel-primary">
-    <div class="panel-heading panel-heading-player">
-      <h3 class="panel-title clearfix"><span class="pull-left">En direct</span> <a clear-playlist class="btn btn-xs btn-default pull-right">Effacer le direct</a></h3>
-    </div>
-    <div class="table-panel-player">
-      <table class="table table-condensed table-striped header-fixed">
-        <tbody ui-sortable="sortableOptions" ng-model="playlist">
-          <tr class="clickable-row" ng-repeat="musique in playlist">
-            <td style="width:40px">
-              <small><span class="glyphicon glyphicon-move" aria-hidden="true"></span></small>
-            </td>
-            <td play-from-playlist="musique">
-              <a>{{ musique.title }}</a><span ng-if="currentPlaying.id == musique.id"> <small>(actuelle)</small></span>
-            </td>
-            <td style="width:60px">
-              {{ musique.length | secondsToDateTime | date:'mm:ss' }}
-            </td>
-            <td remove-from-playlist="musique" data-index="{($index)}" style="width:40px">
-              <small><span class="glyphicon glyphicon-remove" aria-hidden="true"></small>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  </nav>
 </div>

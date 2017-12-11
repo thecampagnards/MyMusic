@@ -3,18 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <title>MyMusic</title>
-    <base href="http://localhost/mymusic/dist/" />
+    <base href="http://mymusic.konstantin-sidorenko.fr/" />
     <link rel="icon" type="image/png" href="img/logo.png" />
   </head>
   <body ng-controller="mainController">
-      <menu></menu>
-      <div id="main">
-        <div class="row" ng-show="showPlayer">
-          <ng-include src="'components/player.html'"></ng-include>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-2" id="menu">
+          <menu></menu>
         </div>
-        <div ng-view></div>
+        <div class="col-sm-10" id="view">
+          <div ng-view></div>
+        </div>
       </div>
-    </body>
+    </div>
+    <div id="main">
+      <div ng-show="showPlayer">
+        <ng-include src="'components/player.html'"></ng-include>
+      </div>
+    </div>
+  </body>
 </html>
 <link rel="stylesheet" href="css/main.css" />
 <script src="app.js"></script>

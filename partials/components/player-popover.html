@@ -1,0 +1,22 @@
+<div>
+  <div class="table-panel-player">
+    <table class="table table-condensed table-striped header-fixed">
+      <tbody ui-sortable="sortableOptions" ng-model="playlist">
+        <tr class="clickable-row" ng-repeat="musique in playlist">
+          <td style="width:40px">
+            <small><span class="glyphicon glyphicon-move" aria-hidden="true"></span></small>
+          </td>
+          <td play-from-playlist="musique">
+            <a>{{ musique.title }}</a><span ng-if="currentPlaying.id == musique.id"> <small>(actuelle)</small></span>
+          </td>
+          <td style="width:60px">
+            {{ musique.length | secondsToDateTime | date:'mm:ss' }}
+          </td>
+          <td remove-from-playlist="musique" data-index="{($index)}" style="width:40px">
+            <small><span class="glyphicon glyphicon-remove" aria-hidden="true"></small>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

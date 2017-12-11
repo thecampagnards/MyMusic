@@ -56,7 +56,7 @@ angular.module('mymusicApp.directives')
     templateUrl: 'components/musique-table.html',
     link: function (scope, element, attrs) {
       scope.currentPage = 1
-      scope.pageSize = 10
+      scope.pageSize = 18
     }
   }
 })
