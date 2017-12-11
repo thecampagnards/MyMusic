@@ -69,7 +69,7 @@
             <td style="width:60px">
               {{ musique.length | secondsToDateTime | date:'mm:ss' }}
             </td>
-            <td remove-from-playlist="musique" data-index="{$index}" style="width:40px">
+            <td remove-from-playlist="musique" data-index="{($index)}" style="width:40px">
               <small><span class="glyphicon glyphicon-remove" aria-hidden="true"></small>
             </td>
           </tr>

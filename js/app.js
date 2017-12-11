@@ -5,6 +5,7 @@ angular.module('mymusicApp', [
   'angularSoundManager',
   'ui.bootstrap',
   'ui.sortable',
+  'youtube-embed',
   'templates',
   'mymusicApp.config',
   'mymusicApp.directives',
@@ -14,6 +15,7 @@ angular.module('mymusicApp', [
 ])
 
 .config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
+  delete $httpProvider.defaults.headers.common['X-Requested-With']
   $httpProvider.interceptors.push(['$q', '$location', function ($q, $location) {
     return {
       responseError: function (rejection) {
@@ -74,12 +76,22 @@ angular.module('mymusicApp', [
     templateUrl: 'playlist-form.html',
     controller: 'playlistFormController'
   })
+  .when('/search', {
+    templateUrl: 'search.html',
+    controller: 'searchController'
+  })
   .otherwise({
     redirectTo: '/'
   })
 }])
 
 .run(['$rootScope', '$location', 'playerFactory', 'utilisateurFactory', 'sessionFactory', function ($rootScope, $location, playerFactory, utilisateurFactory, sessionFactory) {
+  // Youtube player
+  var tag = document.createElement('script')
+  tag.src = 'http://www.youtube.com/iframe_api'
+  var firstScriptTag = document.getElementsByTagName('script')[0]
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag)
+
   // on recharge la derniere playlist au chargement
   playerFactory.init()
   $rootScope.$on('$routeChangeStart', function (event) {

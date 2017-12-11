@@ -28,6 +28,7 @@ gulp.task('js', ['template'], function () {
       './bower_components/angular-ui-sortable/sortable.min.js',
       './bower_components/bootstrap-fileinput/js/fileinput.min.js',
       './bower_components/bootstrap-fileinput/js/locales/fr.js',
+      './bower_components/angular-youtube-mb/dist/angular-youtube-embed.min.js',
       './js/controllers/main.js',
       './dist/templates.js',
       './js/*.js',

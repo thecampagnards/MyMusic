@@ -1,0 +1,80 @@
+<h1>Recherche <small>/ Liste <span ng-show="musiques">({{ musiques.YouTube.length + musiques.SoundCloud.length + musiques.MyMusic.length }})</span></small></h1>
+<hr />
+
+<h2>In progress :)</h2>
+
+<div class="alert alert-warning alert-dismissible" role="alert" ng-show="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>Warning!</strong>{{ alert }}
+</div>
+
+<form role="form">
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Rechercher" ng-model="search">
+  </div>
+</form>
+
+<div id="ytplayer"></div>
+
+<div class="row" ng-show="musiques">
+  <div class="col-md-4">
+    <ul class="list-group">
+      <h3>YouTube</h3>
+      <li class="list-group-item" ng-repeat="musique in musiques.YouTube">
+        <div class="row">
+          <div class="col-xs-6 col-md-3">
+            <a href="#" class="thumbnail">
+              <img ng-if="musique.image" ng-src="{{ musique.image }}">
+              <img ng-if="!musique.image" src="img/no-media.gif">
+            </a>
+          </div>
+          <div class="col-xs-6 col-md-9">
+            {{ musique.artist }} - {{ musique.title }}
+            <button ng-click="musique.videoId === player.videoId ? player.loadVideoById(musique.videoId) : player.playVideo()">Play</button>
+            <button ng-click="player.pauseVideo()">Stop</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-4">
+    <ul class="list-group">
+      <h3>SoundCloud</h3>
+      <li class="list-group-item" ng-repeat="musique in musiques.SoundCloud">
+        <div class="row">
+          <div class="col-xs-6 col-md-3">
+            <a href="#" class="thumbnail">
+              <img ng-if="musique.image" ng-src="{{ musique.image }}">
+              <img ng-if="!musique.image" src="img/no-media.gif">
+            </a>
+          </div>
+          <div class="col-xs-6 col-md-9">
+            {{ musique.artist }} - {{ musique.title }}
+            <audio src="{{ musique.url }}" id="audioPlayerSC-{{$index}}"></audio>
+            <button class="control" ng-click="play('audioPlayerSC-' + $index, this)">Play</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-4">
+    <ul class="list-group">
+      <h3>MyMusic</h3>
+      <li class="list-group-item" ng-repeat="musique in musiques.MyMusic">
+        <div class="row">
+          <div class="col-xs-6 col-md-3">
+            <a href="#" class="thumbnail">
+              <img ng-if="musique.image" ng-src="{{ musique.image }}">
+              <img ng-if="!musique.image" src="img/no-media.gif">
+            </a>
+          </div>
+          <div class="col-xs-6 col-md-9">
+            {{ musique.artist }} - {{ musique.title }}
+            <audio src="{{ musique.url }}" id="audioPlayerMM-{{$index}}"></audio>
+            <button class="control" ng-click="play('audioPlayerMM-' + $index, this)">Play</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
