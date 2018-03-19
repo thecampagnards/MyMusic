@@ -30,7 +30,7 @@
           </div>
           <div class="col-xs-6 col-md-9">
             {{ musique.artist }} - {{ musique.title }}
-            <button ng-click="musique.videoId === player.videoId ? player.loadVideoById(musique.videoId) : player.playVideo()">Play</button>
+            <button ng-click="musique.videoId !== player.videoId ? player.loadVideoById(musique.videoId) : player.playVideo()">Play</button>
             <button ng-click="player.pauseVideo()">Stop</button>
           </div>
         </div>
@@ -50,7 +50,7 @@
           </div>
           <div class="col-xs-6 col-md-9">
             {{ musique.artist }} - {{ musique.title }}
-            <audio src="{{ musique.url }}" id="audioPlayerSC-{{$index}}"></audio>
+            <audio ng-src="{{ musique.url }}" id="audioPlayerSC-{{$index}}"></audio>
             <button class="control" ng-click="play('audioPlayerSC-' + $index, this)">Play</button>
           </div>
         </div>
@@ -70,7 +70,7 @@
           </div>
           <div class="col-xs-6 col-md-9">
             {{ musique.artist }} - {{ musique.title }}
-            <audio src="{{ musique.url }}" id="audioPlayerMM-{{$index}}"></audio>
+            <audio ng-src="{{ musique.url }}" id="audioPlayerMM-{{$index}}"></audio>
             <button class="control" ng-click="play('audioPlayerMM-' + $index, this)">Play</button>
           </div>
         </div>

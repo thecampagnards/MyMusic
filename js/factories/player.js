@@ -18,7 +18,7 @@ angular.module('mymusicApp.factories')
         var isPlaying = sessionFactory.get('isPlaying')
         // @TODO a faire placer le curseur sur la bonne position
         var position = sessionFactory.get('position')
-        if (playlist !== undefined) {
+        if (playlist !== null) {
           for (var i = 0; i < playlist.length; i++) {
             angularPlayer.addTrack(playlist[i])
           }
